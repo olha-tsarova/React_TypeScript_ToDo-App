@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { buttons } from '../../utils/constants'
-import { Filter } from '../../utils/interfaces'
+import { IFilter } from '../../utils/interfaces'
 
-const FilterButtons = ({ activeFilter, setFilter }) => {
-  const [filterButtons, setFilterButtons] = useState<Filter[]>([])
+interface IFilterButtons {
+  activeFilter: string,
+  setFilter: (text: string) => void
+}
+
+const FilterButtons: React.FC<IFilterButtons> = ({ activeFilter, setFilter }) => {
+  const [filterButtons, setFilterButtons] = useState<IFilter[]>([])
 
   useEffect(() => {
     return setFilterButtons(buttons)

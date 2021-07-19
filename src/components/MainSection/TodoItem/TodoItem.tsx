@@ -1,15 +1,21 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { ITodo } from '../../../utils/interfaces'
 
-const TodoItem = ({ todo, changeStatus, removeTodo }) => {
+interface ITodoItem {
+  todo: ITodo,
+  changeStatus: (key: string) => void,
+  removeTodo: (key: string) => void
+}
+
+const TodoItem: React.FC<ITodoItem> = ({ todo, changeStatus, removeTodo }) => {
   const handlerTodoStatusChange = useCallback(() => {
     changeStatus(todo.key)
-  })
+  }, [changeStatus, todo.key])
 
   const handlerTodoRemove = useCallback(() => {
     removeTodo(todo.key)
-  })
+  }, [removeTodo, todo.key])
 
   return (
   <li
@@ -32,16 +38,6 @@ const TodoItem = ({ todo, changeStatus, removeTodo }) => {
     />
   </li>
   )
-}
-
-TodoItem.propTypes = {
-  todo: PropTypes.shape({
-    key: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired
-  }).isRequired,
-  changeStatus: PropTypes.func.isRequired,
-  removeTodo: PropTypes.func.isRequired
 }
 
 export default TodoItem

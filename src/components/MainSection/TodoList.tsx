@@ -1,10 +1,16 @@
 import React from 'react'
-import { Todo } from '../../utils/interfaces'
+import { ITodo } from '../../utils/interfaces'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ todos, changeStatus, removeTodo }) => (
+interface ITodoList {
+  todos: ITodo[],
+  changeStatus: () => void,
+  removeTodo: () => void
+}
+
+const TodoList: React.FC<ITodoList> = ({ todos, changeStatus, removeTodo }) => (
   <ul className='todo-list'>
-    {todos.map((todo: Todo) => (
+    {todos.map((todo: ITodo) => (
       <TodoItem
         todo={todo}
         key={todo.key}

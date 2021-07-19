@@ -8,11 +8,15 @@ import FooterSection from './components/FooterSection'
 import Context from './utils/context'
 import { getTodosFromServer, queryToServer } from './api/api'
 import { filters, endpoints, fetchMethods } from './utils/constants'
-import Todo from './utils/interfaces'
+import { ITodo } from './utils/interfaces'
 
-const App:React.FC = () => {
-  const [todoItems, setTodos] = useState<Todo[] | []>([])
-  const [todoToRender, setTodosToRender] = useState<Todo[]>(todoItems)
+interface IApp {
+
+}
+
+const App:React.FC<IApp> = () => {
+  const [todoItems, setTodos] = useState<ITodo[] | []>([])
+  const [todoToRender, setTodosToRender] = useState<ITodo[]>(todoItems)
   const [activeFilter, setFilter] = useState<string>(filters.all)
 
   useEffect(() => {
@@ -28,11 +32,11 @@ const App:React.FC = () => {
 
   useEffect(() => {
     if (activeFilter === filters.active) {
-      setTodosToRender(todoItems.filter((todo: Todo) => !todo.completed))
+      setTodosToRender(todoItems.filter((todo: ITodo) => !todo.completed))
     }
 
     if (activeFilter === filters.completed) {
-      setTodosToRender(todoItems.filter((todo: Todo) => todo.completed))
+      setTodosToRender(todoItems.filter((todo: ITodo) => todo.completed))
     }
 
     if (activeFilter === filters.all) {
@@ -48,7 +52,7 @@ const App:React.FC = () => {
 
     const newKey: string = uuid()
 
-    const newTodo: Todo = {
+    const newTodo: ITodo = {
       title: task,
       completed: false,
       key: newKey
@@ -71,7 +75,7 @@ const App:React.FC = () => {
     queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, todoId)
       .then((res) => {
         if (res) {
-          setTodos((state) => state.filter((todo: Todo) => todo.key !== todoId))
+          setTodos((state) => state.filter((todo: ITodo) => todo.key !== todoId))
         } else {
           console.error('Sorry, something went wrong')
         }
@@ -79,8 +83,8 @@ const App:React.FC = () => {
   }
 
   const changeStatus = useCallback((todoKey) => {
-    const todoForChange = todoItems.find((todo: Todo) => todo.key === todoKey)
-    const changedTodos: Todo[] = todoItems.map((todo: Todo) => {
+    const todoForChange = todoItems.find((todo: ITodo) => todo.key === todoKey)
+    const changedTodos: ITodo[] = todoItems.map((todo: ITodo) => {
       if (todo.key === todoKey) {
         todo.completed = !todo.completed
       }
@@ -98,14 +102,14 @@ const App:React.FC = () => {
   }, [todoItems])
 
   const clearCompleted = useCallback(() => {
-    const completedTodos = todoItems.filter((todo: Todo) => todo.completed)
+    const completedTodos = todoItems.filter((todo: ITodo) => todo.completed)
     const completedTodosKeys: Array<string> = []
-    completedTodos.forEach((todo: Todo) => completedTodosKeys.push(todo.key))
+    completedTodos.forEach((todo: ITodo) => completedTodosKeys.push(todo.key))
 
     queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, completedTodosKeys)
       .then((res) => {
         if (res) {
-          setTodos((state) => state.filter((todo: Todo) => !todo.completed))
+          setTodos((state) => state.filter((todo: ITodo) => !todo.completed))
         } else {
           console.error('Sorry, something went wrong')
         }
@@ -121,14 +125,14 @@ const App:React.FC = () => {
       keys: [], data: { completed: status }
     }
 
-    todoItems.forEach((todo: Todo) => {
+    todoItems.forEach((todo: ITodo) => {
       todosData.keys.push(todo.key)
     })
 
     queryToServer(endpoints.CHANGE_STATUSES_URL, fetchMethods.M_PATCH, todosData)
       .then((res) => {
         if (res) {
-          setTodos(todoItems.map((todo: Todo) => ({ ...todo, completed: status })))
+          setTodos(todoItems.map((todo: ITodo) => ({ ...todo, completed: status })))
         } else {
           console.error('Sorry, something went wrong')
         }

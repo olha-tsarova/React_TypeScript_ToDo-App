@@ -1,8 +1,16 @@
 import React from 'react'
 import ToggleAllInput from './ToggleAllInput'
 import TodoList from './TodoList'
+import { ITodo } from '../../utils/interfaces'
 
-const MainSection: React.FC = ({
+interface IMainSection {
+  todos: ITodo[],
+  allTodos: ITodo[],
+  changeStatus: () => void,
+  removeTodo: () => void,
+}
+
+const MainSection: React.FC<IMainSection> = ({
   todos,
   allTodos,
   changeStatus,

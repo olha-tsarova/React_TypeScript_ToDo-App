@@ -1,6 +1,11 @@
 import React from "react"
+import { ITodo } from "../../utils/interfaces"
 
-const ActiveTodosCounter = ({ activeTodos}) => {
+interface IActiveTodosCounter {
+  activeTodos: ITodo[]
+}
+
+const ActiveTodosCounter: React.FC<IActiveTodosCounter> = ({ activeTodos}) => {
   return (
     <span className='todo-count'>
       {activeTodos.length === 1

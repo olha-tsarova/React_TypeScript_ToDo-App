@@ -1,10 +1,10 @@
-export interface Todo {
+export interface ITodo {
   title: string,
   completed: boolean,
   key: string
 }
 
-export interface Filter {
+export interface IFilter {
   key: string,
   title: string
 }

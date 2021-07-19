@@ -3,16 +3,23 @@ import React from 'react'
 import ClearCompletedButton from './ClearCompletedButton.js'
 import FilterButtons from './FilterButtons.js'
 import ActiveTodosCounter from './ActiveTodosCounter.js'
-import { Todo } from '../../utils/interfaces.js'
+import { ITodo } from '../../utils/interfaces.js'
 
-const FooterSection: React.FC = ({
+interface IFooterSection {
+  todos: ITodo[],
+  activeFilter: string,
+  setFilter: () => void,
+  clearCompleted: () => void
+}
+
+const FooterSection: React.FC<IFooterSection> = ({
   todos,
   activeFilter,
   setFilter,
   clearCompleted
 }) => {
-  const activeTodos = todos.filter((todo: Todo) => !todo.completed)
-  const completedTodos = todos.filter((todo: Todo) => todo.completed)
+  const activeTodos = todos.filter((todo: ITodo) => !todo.completed)
+  const completedTodos = todos.filter((todo: ITodo) => todo.completed)
 
   return (
     <section className="footer">
