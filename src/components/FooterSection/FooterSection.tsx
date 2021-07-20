@@ -1,14 +1,14 @@
 import React from 'react'
 
-import ClearCompletedButton from './ClearCompletedButton.js'
-import FilterButtons from './FilterButtons.js'
-import ActiveTodosCounter from './ActiveTodosCounter.js'
+import ClearCompletedButton from './ClearCompletedButton'
+import FilterButtons from './FilterButtons'
+import ActiveTodosCounter from './ActiveTodosCounter'
 import { ITodo } from '../../utils/interfaces.js'
 
 interface IFooterSection {
   todos: ITodo[],
   activeFilter: string,
-  setFilter: () => void,
+  setFilter: (text: string) => void,
   clearCompleted: () => void
 }
 

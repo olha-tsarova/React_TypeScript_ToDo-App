@@ -1,1 +1,1 @@
-export { default } from './MainSection.jsx'
+export { default } from './MainSection.tsx'

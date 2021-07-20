@@ -1,6 +1,10 @@
+import { ITodo } from "../utils/interfaces";
+
 const API_URL = 'http://127.0.0.1:9800'
 
-export function getTodosFromServer(options) {
+type Data = string[] | {keys: string[], completed?: boolean} | string | ITodo | undefined
+
+export function getTodosFromServer(options: string): Promise<ITodo[] | void> {
   return fetch(`${API_URL}${options}`)
     .then((response) => {
       console.log(response);
@@ -9,7 +13,7 @@ export function getTodosFromServer(options) {
     .catch((err) => console.error(err))
 }
 
-export function queryToServer(options, method, data) {
+export function queryToServer(options: string, method: string, data: Data): Promise<void | Response> {
   console.log(`DATA: ${data}`)
   return fetch(`${API_URL}${options}`, {
     method,

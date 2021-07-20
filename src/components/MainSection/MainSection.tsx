@@ -6,8 +6,8 @@ import { ITodo } from '../../utils/interfaces'
 interface IMainSection {
   todos: ITodo[],
   allTodos: ITodo[],
-  changeStatus: () => void,
-  removeTodo: () => void,
+  changeStatus: (key: string) => void,
+  removeTodo: (key: string) => void,
 }
 
 const MainSection: React.FC<IMainSection> = ({

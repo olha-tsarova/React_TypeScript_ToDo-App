@@ -1,6 +1,10 @@
 import React from 'react'
 
-const ClearCompletedButton = ({ clearCompleted }) => (
+interface IClearCompleted {
+  clearCompleted: () => void
+}
+
+const ClearCompletedButton: React.FC<IClearCompleted> = ({ clearCompleted }) => (
   <button
     className="clear-completed"
     type="button"

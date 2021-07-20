@@ -4,8 +4,8 @@ import TodoItem from './TodoItem'
 
 interface ITodoList {
   todos: ITodo[],
-  changeStatus: () => void,
-  removeTodo: () => void
+  changeStatus: (key: string) => void,
+  removeTodo: (key: string) => void
 }
 
 const TodoList: React.FC<ITodoList> = ({ todos, changeStatus, removeTodo }) => (

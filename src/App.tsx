@@ -10,13 +10,9 @@ import { getTodosFromServer, queryToServer } from './api/api'
 import { filters, endpoints, fetchMethods } from './utils/constants'
 import { ITodo } from './utils/interfaces'
 
-interface IApp {
-
-}
-
-const App:React.FC<IApp> = () => {
-  const [todoItems, setTodos] = useState<ITodo[] | []>([])
-  const [todoToRender, setTodosToRender] = useState<ITodo[]>(todoItems)
+const App:React.FC = () => {
+  const [todoItems, setTodos] = useState<ITodo[]>([])
+  const [todoToRender, setTodosToRender] = useState(todoItems)
   const [activeFilter, setFilter] = useState<string>(filters.all)
 
   useEffect(() => {
@@ -82,7 +78,7 @@ const App:React.FC<IApp> = () => {
       })
   }
 
-  const changeStatus = useCallback((todoKey) => {
+  const changeStatus = useCallback((todoKey: string) => {
     const todoForChange = todoItems.find((todo: ITodo) => todo.key === todoKey)
     const changedTodos: ITodo[] = todoItems.map((todo: ITodo) => {
       if (todo.key === todoKey) {
@@ -103,7 +99,7 @@ const App:React.FC<IApp> = () => {
 
   const clearCompleted = useCallback(() => {
     const completedTodos = todoItems.filter((todo: ITodo) => todo.completed)
-    const completedTodosKeys: Array<string> = []
+    const completedTodosKeys: string[] = []
     completedTodos.forEach((todo: ITodo) => completedTodosKeys.push(todo.key))
 
     queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, completedTodosKeys)
@@ -116,11 +112,12 @@ const App:React.FC<IApp> = () => {
       })
   }, [todoItems])
 
-  const toggleAll = useCallback((status) => {
+  const toggleAll = useCallback((status: boolean) => {
     interface TodosData {
       keys: Array<string>,
       data: {completed: boolean}
     }
+
     const todosData: TodosData = {
       keys: [], data: { completed: status }
     }

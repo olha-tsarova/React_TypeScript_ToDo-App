@@ -15,19 +15,19 @@ const config: webpack.Configuration = {
             presets: [
               "@babel/preset-env",
               "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
-        },
-      },
-    ],
+              "@babel/preset-typescript"
+            ]
+          }
+        }
+      }
+    ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js"]
   },
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "bundle.js",
+    filename: "bundle.js"
   },
   devServer: {
     contentBase: path.join(__dirname, "build"),
@@ -39,10 +39,10 @@ const config: webpack.Configuration = {
     new ForkTsCheckerWebpackPlugin({
       async: false,
       eslint: {
-        files: "./src/**/*",
-      },
-    }),
-  ],
+        files: "./src/**/*"
+      }
+    })
+  ]
 }
 
 export default config
