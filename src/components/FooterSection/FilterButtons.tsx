@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { buttons } from '../../utils/constants'
-import { IFilter } from '../../utils/interfaces'
+import { buttons } from '../../constants/constants'
+import { IFilter } from '../../types/interfaces'
 
 interface IFilterButtons {
   activeFilter: string,

@@ -7,6 +7,13 @@ const config: webpack.Configuration = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
@@ -39,7 +46,7 @@ const config: webpack.Configuration = {
     new ForkTsCheckerWebpackPlugin({
       async: false,
       eslint: {
-        files: "./src/**/*"
+        files: "./src/**/*.{ts,tsx,js,jsx}"
       }
     })
   ]

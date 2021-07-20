@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import classNames from 'classnames'
-import { ITodo } from '../../../utils/interfaces'
+import { ITodo } from '../../../types/interfaces'
 
 interface ITodoItem {
   todo: ITodo,

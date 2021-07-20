@@ -1,7 +1,7 @@
 import React from 'react'
 import ToggleAllInput from './ToggleAllInput'
 import TodoList from './TodoList'
-import { ITodo } from '../../utils/interfaces'
+import { ITodo } from '../../types/interfaces'
 
 interface IMainSection {
   todos: ITodo[],

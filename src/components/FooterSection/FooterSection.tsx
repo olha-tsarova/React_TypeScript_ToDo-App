@@ -3,7 +3,7 @@ import React from 'react'
 import ClearCompletedButton from './ClearCompletedButton'
 import FilterButtons from './FilterButtons'
 import ActiveTodosCounter from './ActiveTodosCounter'
-import { ITodo } from '../../utils/interfaces.js'
+import { ITodo } from '../../types/interfaces.js'
 
 interface IFooterSection {
   todos: ITodo[],

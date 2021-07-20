@@ -5,14 +5,14 @@ import React, {
   useState
 } from 'react'
 import Context from '../../utils/context'
-import { ITodo } from '../../utils/interfaces'
+import { ITodo } from '../../types/interfaces'
 
 interface IToggleAllInput {
   allTodos: ITodo[]
 }
 
 const ToggleAllInput: React.FC<IToggleAllInput> = ({ allTodos }) => {
-  const [isChecked, setChecked] = useState<boolean>(true)
+  const [isChecked, setChecked] = useState(true)
   const { toggleAll } = useContext(Context)
 
   useEffect(() => {

@@ -7,8 +7,10 @@ import MainSection from './components/MainSection'
 import FooterSection from './components/FooterSection'
 import Context from './utils/context'
 import { getTodosFromServer, queryToServer } from './api/api'
-import { filters, endpoints, fetchMethods } from './utils/constants'
-import { ITodo } from './utils/interfaces'
+import { filters, endpoints, fetchMethods } from './constants/constants'
+import { ITodo } from './types/interfaces'
+
+import './index.css'
 
 const App:React.FC = () => {
   const [todoItems, setTodos] = useState<ITodo[]>([])

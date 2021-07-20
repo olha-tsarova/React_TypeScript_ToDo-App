@@ -1,4 +1,4 @@
-import { ITodo } from "../utils/interfaces";
+import { ITodo } from "../types/interfaces";
 
 const API_URL = 'http://127.0.0.1:9800'
 

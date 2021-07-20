@@ -1,18 +1,16 @@
 import React from "react"
-import { ITodo } from "../../utils/interfaces"
+import { ITodo } from "../../types/interfaces"
 
 interface IActiveTodosCounter {
   activeTodos: ITodo[]
 }
 
-const ActiveTodosCounter: React.FC<IActiveTodosCounter> = ({ activeTodos}) => {
-  return (
-    <span className='todo-count'>
-      {activeTodos.length === 1
-        ? '1 item left'
-        : `${activeTodos.length} items left`}
-    </span>
-  )
-}
+const ActiveTodosCounter: React.FC<IActiveTodosCounter> = ({ activeTodos }) => (
+  <span className='todo-count'>
+    {activeTodos.length === 1
+      ? '1 item left'
+      : `${activeTodos.length} items left`}
+  </span>
+)
 
 export default ActiveTodosCounter
