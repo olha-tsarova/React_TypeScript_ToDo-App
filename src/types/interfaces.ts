@@ -1,10 +1,10 @@
 export interface ITodo {
-  title: string,
-  completed: boolean,
+  title: string
+  completed: boolean
   key: string
 }
 
 export interface IFilter {
-  key: string,
+  key: string
   title: string
 }

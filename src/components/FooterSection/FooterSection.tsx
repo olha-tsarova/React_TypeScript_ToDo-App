@@ -6,9 +6,9 @@ import ActiveTodosCounter from './ActiveTodosCounter'
 import { ITodo } from '../../types/interfaces.js'
 
 interface IFooterSection {
-  todos: ITodo[],
-  activeFilter: string,
-  setFilter: (text: string) => void,
+  todos: ITodo[]
+  activeFilter: string
+  setFilter: (text: string) => void
   clearCompleted: () => void
 }
 

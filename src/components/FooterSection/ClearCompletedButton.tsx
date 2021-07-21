@@ -4,7 +4,9 @@ interface IClearCompleted {
   clearCompleted: () => void
 }
 
-const ClearCompletedButton: React.FC<IClearCompleted> = ({ clearCompleted }) => (
+const ClearCompletedButton: React.FC<IClearCompleted> = ({
+  clearCompleted
+}) => (
   <button
     className="clear-completed"
     type="button"

@@ -7,11 +7,8 @@ import React, {
 import Context from '../../utils/context'
 import { ITodo } from '../../types/interfaces'
 
-interface IToggleAllInput {
-  allTodos: ITodo[]
-}
 
-const ToggleAllInput: React.FC<IToggleAllInput> = ({ allTodos }) => {
+const ToggleAllInput: React.FC = ({ allTodos }) => {
   const [isChecked, setChecked] = useState(true)
   const { toggleAll } = useContext(Context)
 

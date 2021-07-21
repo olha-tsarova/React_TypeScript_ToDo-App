@@ -3,38 +3,46 @@
 // eslint-disable-next-line object-curly-newline
 import React, { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
+import { connect } from 'react-redux'
 import MainSection from './components/MainSection'
 import FooterSection from './components/FooterSection'
 import Context from './utils/context'
 import { getTodosFromServer, queryToServer } from './api/api'
-import { filters, endpoints, fetchMethods } from './constants/constants'
+import {
+  filters,
+  endpoints,
+  fetchMethods
+} from './constants/constants'
 import { ITodo } from './types/interfaces'
 
 import './index.css'
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   const [todoItems, setTodos] = useState<ITodo[]>([])
   const [todoToRender, setTodosToRender] = useState(todoItems)
   const [activeFilter, setFilter] = useState<string>(filters.all)
 
   useEffect(() => {
-    getTodosFromServer(endpoints.GET_TODOS_URL)
-      .then((response) => {
-        if (response) {
-          setTodos(response)
-        } else {
-          console.error('Sorry, something went wrong')
-        }
-      })
+    getTodosFromServer(endpoints.GET_TODOS_URL).then((response) => {
+      if (response) {
+        setTodos(response)
+      } else {
+        console.error('Sorry, something went wrong')
+      }
+    })
   }, [])
 
   useEffect(() => {
     if (activeFilter === filters.active) {
-      setTodosToRender(todoItems.filter((todo: ITodo) => !todo.completed))
+      setTodosToRender(
+        todoItems.filter((todo: ITodo) => !todo.completed)
+      )
     }
 
     if (activeFilter === filters.completed) {
-      setTodosToRender(todoItems.filter((todo: ITodo) => todo.completed))
+      setTodosToRender(
+        todoItems.filter((todo: ITodo) => todo.completed)
+      )
     }
 
     if (activeFilter === filters.all) {
@@ -42,109 +50,149 @@ const App:React.FC = () => {
     }
   }, [activeFilter, todoItems])
 
-  const addTodo = useCallback((text) => {
-    const task = text.trim()
-    if (!task) {
-      return
-    }
+  const addTodo = useCallback(
+    (text) => {
+      const task = text.trim()
+      if (!task) {
+        return
+      }
 
-    const newKey: string = uuid()
+      const newKey: string = uuid()
 
-    const newTodo: ITodo = {
-      title: task,
-      completed: false,
-      key: newKey
-    }
+      const newTodo: ITodo = {
+        title: task,
+        completed: false,
+        key: newKey
+      }
 
-    queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, newTodo)
-      .then((res) => {
+      queryToServer(
+        endpoints.ADD_TODO_URL,
+        fetchMethods.M_POST,
+        newTodo
+      ).then((res) => {
         if (res) {
-          setTodos([
-            ...todoItems,
-            newTodo
-          ])
+          setTodos([...todoItems, newTodo])
         } else {
           console.error('Sorry, something went wrong')
         }
       })
-  }, [todoItems])
+    },
+    [todoItems]
+  )
 
   const removeTodo = (todoId: string) => {
-    queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, todoId)
-      .then((res) => {
-        if (res) {
-          setTodos((state) => state.filter((todo: ITodo) => todo.key !== todoId))
-        } else {
-          console.error('Sorry, something went wrong')
-        }
-      })
+    queryToServer(
+      endpoints.DELETE_TODOS_URL,
+      fetchMethods.M_DELETE,
+      todoId
+    ).then((res) => {
+      if (res) {
+        setTodos((state) =>
+          state.filter((todo: ITodo) => todo.key !== todoId)
+        )
+      } else {
+        console.error('Sorry, something went wrong')
+      }
+    })
   }
 
-  const changeStatus = useCallback((todoKey: string) => {
-    const todoForChange = todoItems.find((todo: ITodo) => todo.key === todoKey)
-    const changedTodos: ITodo[] = todoItems.map((todo: ITodo) => {
-      if (todo.key === todoKey) {
-        todo.completed = !todo.completed
-      }
-      return todo
-    })
+  const changeStatus = useCallback(
+    (todoKey: string) => {
+      const todoForChange = todoItems.find(
+        (todo: ITodo) => todo.key === todoKey
+      )
+      const changedTodos: ITodo[] = todoItems.map((todo: ITodo) => {
+        if (todo.key === todoKey) {
+          todo.completed = !todo.completed
+        }
+        return todo
+      })
 
-    queryToServer(endpoints.EDIT_TODO_URL, fetchMethods.M_PATCH, todoForChange)
-      .then((res) => {
+      queryToServer(
+        endpoints.EDIT_TODO_URL,
+        fetchMethods.M_PATCH,
+        todoForChange
+      ).then((res) => {
         if (res) {
           setTodos(changedTodos)
         } else {
           console.error('Sorry, something went wrong')
         }
       })
-  }, [todoItems])
+    },
+    [todoItems]
+  )
 
   const clearCompleted = useCallback(() => {
-    const completedTodos = todoItems.filter((todo: ITodo) => todo.completed)
+    const completedTodos = todoItems.filter(
+      (todo: ITodo) => todo.completed
+    )
     const completedTodosKeys: string[] = []
-    completedTodos.forEach((todo: ITodo) => completedTodosKeys.push(todo.key))
+    completedTodos.forEach((todo: ITodo) =>
+      completedTodosKeys.push(todo.key)
+    )
 
-    queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, completedTodosKeys)
-      .then((res) => {
-        if (res) {
-          setTodos((state) => state.filter((todo: ITodo) => !todo.completed))
-        } else {
-          console.error('Sorry, something went wrong')
-        }
-      })
-  }, [todoItems])
-
-  const toggleAll = useCallback((status: boolean) => {
-    interface TodosData {
-      keys: Array<string>,
-      data: {completed: boolean}
-    }
-
-    const todosData: TodosData = {
-      keys: [], data: { completed: status }
-    }
-
-    todoItems.forEach((todo: ITodo) => {
-      todosData.keys.push(todo.key)
+    queryToServer(
+      endpoints.DELETE_TODOS_URL,
+      fetchMethods.M_DELETE,
+      completedTodosKeys
+    ).then((res) => {
+      if (res) {
+        setTodos((state) =>
+          state.filter((todo: ITodo) => !todo.completed)
+        )
+      } else {
+        console.error('Sorry, something went wrong')
+      }
     })
+  }, [todoItems])
 
-    queryToServer(endpoints.CHANGE_STATUSES_URL, fetchMethods.M_PATCH, todosData)
-      .then((res) => {
+  const toggleAll = useCallback(
+    (status: boolean) => {
+      interface TodosData {
+        keys: Array<string>
+        data: { completed: boolean }
+      }
+
+      const todosData: TodosData = {
+        keys: [],
+        data: { completed: status }
+      }
+
+      todoItems.forEach((todo: ITodo) => {
+        todosData.keys.push(todo.key)
+      })
+
+      queryToServer(
+        endpoints.CHANGE_STATUSES_URL,
+        fetchMethods.M_PATCH,
+        todosData
+      ).then((res) => {
         if (res) {
-          setTodos(todoItems.map((todo: ITodo) => ({ ...todo, completed: status })))
+          setTodos(
+            todoItems.map((todo: ITodo) => ({
+              ...todo,
+              completed: status
+            }))
+          )
         } else {
           console.error('Sorry, something went wrong')
         }
       })
-  }, [todoItems])
+    },
+    [todoItems]
+  )
 
-  const handlerAddTodo = useCallback((event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      addTodo(event.target.value)
-      event.target.value = ''
-    }
-  }, [addTodo])
+  const handlerAddTodo = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        addTodo(event.target.value)
+        event.target.value = ''
+      }
+    },
+    [addTodo]
+  )
 
   return (
     <Context.Provider value={{ toggleAll }}>
@@ -161,8 +209,7 @@ const App:React.FC = () => {
             />
           </form>
         </header>
-        {todoItems.length > 0
-        && (
+        {todoItems.length > 0 && (
           <>
             <MainSection
               todos={todoToRender}
@@ -183,4 +230,4 @@ const App:React.FC = () => {
   )
 }
 
-export default App
+export default connect()(App)

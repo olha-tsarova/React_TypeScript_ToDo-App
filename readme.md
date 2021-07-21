@@ -7,5 +7,6 @@
 
 ## Tech:
  - React
+ - Redux
  - TypeScript
  - additional libraries

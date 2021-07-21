@@ -1,16 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { connect } from 'react-redux'
+
 import { ITodo } from '../../types/interfaces'
 import TodoItem from './TodoItem'
 
 interface ITodoList {
-  todos: ITodo[],
-  changeStatus: (key: string) => void,
+  changeStatus: (key: string) => void
   removeTodo: (key: string) => void
 }
 
-const TodoList: React.FC<ITodoList> = ({ todos, changeStatus, removeTodo }) => (
-  <ul className='todo-list'>
-    {todos.map((todo: ITodo) => (
+const TodoList: React.FC<ITodoList> = (
+  { changeStatus, removeTodo },
+  { syncTodos }
+) => (
+  <ul className="todo-list">
+    {syncTodos.map((todo: ITodo) => (
       <TodoItem
         todo={todo}
         key={todo.key}
@@ -21,4 +26,10 @@ const TodoList: React.FC<ITodoList> = ({ todos, changeStatus, removeTodo }) => (
   </ul>
 )
 
-export default TodoList
+const mapStateToProps = (state: { todos: { todos: any } }) => {
+  return {
+    syncTodos: state.todos.todos
+  }
+}
+
+export default connect(mapStateToProps, null)(TodoList)
