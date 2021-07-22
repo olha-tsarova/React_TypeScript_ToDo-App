@@ -1,11 +1,10 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-param-reassign */
-// eslint-disable-next-line object-curly-newline
 import React, { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { connect } from 'react-redux'
-import MainSection from './components/MainSection'
-import FooterSection from './components/FooterSection'
+import { useDispatch, useSelector } from 'react-redux'
+// import MainSection from './components/MainSection'
+// import FooterSection from './components/FooterSection'
 import Context from './utils/context'
 import { getTodosFromServer, queryToServer } from './api/api'
 import {
@@ -14,23 +13,30 @@ import {
   fetchMethods
 } from './constants/constants'
 import { ITodo } from './types/interfaces'
+// import { createTodo } from './redux/actionCreators/actionCreateTodo'
 
 import './index.css'
+import {
+  createTodo,
+  getTodos
+} from './redux/actionCreators/actionCreateTodo'
 
 const App: React.FC = () => {
   const [todoItems, setTodos] = useState<ITodo[]>([])
   const [todoToRender, setTodosToRender] = useState(todoItems)
   const [activeFilter, setFilter] = useState<string>(filters.all)
+  const dispatch = useDispatch()
+  const todos = useSelector(getTodos)
 
-  useEffect(() => {
-    getTodosFromServer(endpoints.GET_TODOS_URL).then((response) => {
-      if (response) {
-        setTodos(response)
-      } else {
-        console.error('Sorry, something went wrong')
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   getTodosFromServer(endpoints.GET_TODOS_URL).then((response) => {
+  //     if (response) {
+  //       setTodos(response)
+  //     } else {
+  //       console.error('Sorry, something went wrong')
+  //     }
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (activeFilter === filters.active) {
@@ -50,35 +56,33 @@ const App: React.FC = () => {
     }
   }, [activeFilter, todoItems])
 
-  const addTodo = useCallback(
-    (text) => {
-      const task = text.trim()
-      if (!task) {
-        return
+  const addTodo = useCallback((text) => {
+    const task = text.trim()
+    if (!task) {
+      return
+    }
+
+    const newKey: string = uuid()
+
+    const newTodo: ITodo = {
+      title: task,
+      completed: false,
+      key: newKey
+    }
+
+    queryToServer(
+      endpoints.ADD_TODO_URL,
+      fetchMethods.M_POST,
+      newTodo
+    ).then((res) => {
+      if (res) {
+        createTodo(newTodo)
+        //   setTodos([...todoItems, newTodo])
+      } else {
+        console.error('Sorry, something went wrong')
       }
-
-      const newKey: string = uuid()
-
-      const newTodo: ITodo = {
-        title: task,
-        completed: false,
-        key: newKey
-      }
-
-      queryToServer(
-        endpoints.ADD_TODO_URL,
-        fetchMethods.M_POST,
-        newTodo
-      ).then((res) => {
-        if (res) {
-          setTodos([...todoItems, newTodo])
-        } else {
-          console.error('Sorry, something went wrong')
-        }
-      })
-    },
-    [todoItems]
-  )
+    })
+  }, [])
 
   const removeTodo = (todoId: string) => {
     queryToServer(
@@ -211,18 +215,18 @@ const App: React.FC = () => {
         </header>
         {todoItems.length > 0 && (
           <>
-            <MainSection
+            {/* <MainSection
               todos={todoToRender}
               allTodos={todoItems}
               changeStatus={changeStatus}
               removeTodo={removeTodo}
-            />
-            <FooterSection
+            /> */}
+            {/* <FooterSection
               todos={todoItems}
               activeFilter={activeFilter}
               setFilter={setFilter}
               clearCompleted={clearCompleted}
-            />
+            /> */}
           </>
         )}
       </section>
@@ -230,4 +234,4 @@ const App: React.FC = () => {
   )
 }
 
-export default connect()(App)
+export default App

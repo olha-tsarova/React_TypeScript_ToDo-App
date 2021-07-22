@@ -24,3 +24,11 @@ export const buttons = [
   { key: filters.active, title: filters.active },
   { key: filters.completed, title: filters.completed }
 ]
+
+export const ADD_TODO = 'ADD_TODO'
+export const FETCH_TODOS = 'FETCH_TODOS'
+export const REMOVE_TODO = 'REMOVE_TODO'
+export const CHANGE_STATUS_TODO = 'CHANGE_STATUS_TODO'
+export const TOGGLE_ALL_TODOS = 'TOGGLE_ALL_TODOS'
+export const CLEAR_COMPLETED_TODOS = 'CLEAR_COMPLETED_TODOS'
+
