@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-// import MainSection from './components/MainSection'
+import MainSection from './components/MainSection'
 // import FooterSection from './components/FooterSection'
 import Context from './utils/context'
 import { getTodosFromServer, queryToServer } from './api/api'
@@ -12,21 +12,23 @@ import {
   endpoints,
   fetchMethods
 } from './constants/constants'
-import { ITodo } from './types/interfaces'
-// import { createTodo } from './redux/actionCreators/actionCreateTodo'
-
+import { ITodo, TodosState } from './types/interfaces'
+import { createTodo } from './redux/actionCreators/actionCreateTodo'
 import './index.css'
-import {
-  createTodo,
-  getTodos
-} from './redux/actionCreators/actionCreateTodo'
 
 const App: React.FC = () => {
   const [todoItems, setTodos] = useState<ITodo[]>([])
   const [todoToRender, setTodosToRender] = useState(todoItems)
   const [activeFilter, setFilter] = useState<string>(filters.all)
   const dispatch = useDispatch()
-  const todos = useSelector(getTodos)
+  const todos = useSelector((state: TodosState) => {
+    console.log(state.todos)
+    return state.todos.todos
+  })
+
+  useEffect(() => {
+    setTodos(todos)
+  }, [todos])
 
   // useEffect(() => {
   //   getTodosFromServer(endpoints.GET_TODOS_URL).then((response) => {
@@ -56,33 +58,37 @@ const App: React.FC = () => {
     }
   }, [activeFilter, todoItems])
 
-  const addTodo = useCallback((text) => {
-    const task = text.trim()
-    if (!task) {
-      return
-    }
-
-    const newKey: string = uuid()
-
-    const newTodo: ITodo = {
-      title: task,
-      completed: false,
-      key: newKey
-    }
-
-    queryToServer(
-      endpoints.ADD_TODO_URL,
-      fetchMethods.M_POST,
-      newTodo
-    ).then((res) => {
-      if (res) {
-        createTodo(newTodo)
-        //   setTodos([...todoItems, newTodo])
-      } else {
-        console.error('Sorry, something went wrong')
+  const addTodo = useCallback(
+    (text) => {
+      const task = text.trim()
+      if (!task) {
+        return
       }
-    })
-  }, [])
+
+      const newKey: string = uuid()
+
+      const newTodo: ITodo = {
+        title: task,
+        completed: false,
+        key: newKey
+      }
+
+      dispatch(createTodo(newTodo))
+
+      // queryToServer(
+      //   endpoints.ADD_TODO_URL,
+      //   fetchMethods.M_POST,
+      //   newTodo
+      // ).then((res) => {
+      //   if (res) {
+      //     dispatch(createTodo(newTodo))
+      //   } else {
+      //     console.error('Sorry, something went wrong')
+      //   }
+      // })
+    },
+    [dispatch]
+  )
 
   const removeTodo = (todoId: string) => {
     queryToServer(
@@ -215,12 +221,7 @@ const App: React.FC = () => {
         </header>
         {todoItems.length > 0 && (
           <>
-            {/* <MainSection
-              todos={todoToRender}
-              allTodos={todoItems}
-              changeStatus={changeStatus}
-              removeTodo={removeTodo}
-            /> */}
+            <MainSection />
             {/* <FooterSection
               todos={todoItems}
               activeFilter={activeFilter}

@@ -1,28 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { ITodo } from '../../types/interfaces'
 import { ADD_TODO } from '../../constants/constants'
-// import { initialState } from '../initialState'
-
-import { v4 as uuid } from 'uuid'
+import { ITodo } from '../../types/interfaces'
+import { initialState } from '../initialState'
 
 const todosReducer = (
-  state = [
-    {
-      key: uuid(),
-      title: 'something',
-      completed: false
-    },
-    {
-      key: uuid(),
-      title: 'something else',
-      completed: true
-    }
-  ],
-  action: { type: unknown; payload: ConcatArray<ITodo> }
+  state = initialState,
+  action: { type: string; payload: ITodo }
 ) => {
   switch (action.type) {
     case ADD_TODO:
-      return [...state, action.payload]
+      return {...state, todos: [...state.todos, action.payload]}
 
     default:
       return state
