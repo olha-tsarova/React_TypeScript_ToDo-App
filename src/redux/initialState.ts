@@ -1,22 +1,5 @@
-import { ITodo } from '../types/interfaces'
-import { v4 as uuid } from 'uuid'
+/* eslint-disable import/prefer-default-export */
 
-
-interface TodosState {
-  todos: ITodo[]
-}
-
-export const initialState: TodosState = {
-  todos: [
-    {
-      key: uuid(),
-      title: 'something',
-      completed: false
-    },
-    {
-      key: uuid(),
-      title: 'something else',
-      completed: true
-    }
-  ]
+export const initialState: any = {
+  todos: []
 }

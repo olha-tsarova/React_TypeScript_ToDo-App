@@ -1,19 +1,27 @@
-import React from 'react'
+/* eslint-disable no-use-before-define */
+import React, { useCallback } from 'react'
 import classNames from 'classnames'
+import { useDispatch } from 'react-redux'
 import { ITodo } from '../../../types/interfaces'
+import {
+  changeTodoStatus,
+  removeTodo
+} from '../../../redux/actions/todoActions'
 
 interface ITodoItem {
   todo: ITodo
 }
 
 const TodoItem: React.FC<ITodoItem> = ({ todo }) => {
-  // const handlerTodoStatusChange = useCallback(() => {
-  //   changeStatus(todo.key)
-  // }, [changeStatus, todo.key])
+  const dispatch = useDispatch()
 
-  // const handlerTodoRemove = useCallback(() => {
-  //   removeTodo(todo.key)
-  // }, [removeTodo, todo.key])
+  const handlerTodoStatusChange = useCallback(() => {
+    dispatch(changeTodoStatus(todo.key))
+  }, [dispatch, todo.key])
+
+  const handlerTodoRemove = useCallback(() => {
+    dispatch(removeTodo(todo.key))
+  }, [dispatch, todo.key])
 
   return (
     <li
@@ -25,18 +33,14 @@ const TodoItem: React.FC<ITodoItem> = ({ todo }) => {
         id={`toggle-${todo.key}`}
         className="toggle"
         type="checkbox"
-        onChange={() => {
-          console.log(todo.title)
-        }}
+        onChange={handlerTodoStatusChange}
         checked={todo.completed}
       />
       <label htmlFor={`toggle-${todo.key}`}>{todo.title}</label>
       <button
         type="button"
         className="destroy"
-        onClick={() => {
-          console.log(todo.key)
-        }}
+        onClick={handlerTodoRemove}
       />
     </li>
   )

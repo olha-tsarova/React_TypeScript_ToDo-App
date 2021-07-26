@@ -25,9 +25,12 @@ export const buttons = [
   { key: filters.completed, title: filters.completed }
 ]
 
-export const FETCH_TODOS = 'FETCH_TODOS'
+export const FETCH_TODOS_REQUEST = 'FETCH_TODOS_REQUEST'
+export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS'
+export const FETCH_TODOS_FAIL = 'FETCH_TODOS_FAIL'
+
 export const ADD_TODO = 'ADD_TODO'
 export const REMOVE_TODO = 'REMOVE_TODO'
-export const CHANGE_STATUS_TODO = 'CHANGE_STATUS_TODO'
+export const CHANGE_TODO_STATUS = 'CHANGE_STATUS_TODO'
 export const TOGGLE_ALL_TODOS = 'TOGGLE_ALL_TODOS'
 export const CLEAR_COMPLETED_TODOS = 'CLEAR_COMPLETED_TODOS'

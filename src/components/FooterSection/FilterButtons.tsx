@@ -14,9 +14,7 @@ const FilterButtons: React.FC<IFilterButtons> = ({
 }) => {
   const [filterButtons, setFilterButtons] = useState<IFilter[]>([])
 
-  useEffect(() => {
-    return setFilterButtons(buttons)
-  }, [])
+  useEffect(() => setFilterButtons(buttons), [])
 
   const handlerSetFilter = useCallback(
     (event) => {

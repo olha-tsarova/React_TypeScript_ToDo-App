@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { clearCompletedTodos } from '../../redux/actions/todoActions'
 
-interface IClearCompleted {
-  clearCompleted: () => void
+const ClearCompletedButton: React.FC = () => {
+  const dispatch = useDispatch()
+  const handlerClearCompleted = useCallback(() => {
+    dispatch(clearCompletedTodos())
+  }, [dispatch])
+
+  return (
+    <button
+      className="clear-completed"
+      type="button"
+      onClick={handlerClearCompleted}
+    >
+      Clear completed
+    </button>
+  )
 }
-
-const ClearCompletedButton: React.FC<IClearCompleted> = ({
-  clearCompleted
-}) => (
-  <button
-    className="clear-completed"
-    type="button"
-    onClick={clearCompleted}
-  >
-    Clear completed
-  </button>
-)
 
 export default ClearCompletedButton

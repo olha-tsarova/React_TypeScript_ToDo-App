@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { ITodo, TodosState } from '../../types/interfaces'
+import { ITodo } from '../../types/interfaces'
 import TodoItem from './TodoItem'
 
 const TodoList: React.FC = () => {
-  const todos = useSelector((state: TodosState) => {
-    return state.todos.todos
-  })
+  const todos = useSelector((state: any) => state.todos.todos)
 
   return (
     <ul className="todo-list">

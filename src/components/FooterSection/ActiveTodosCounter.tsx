@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import { ITodo } from '../../types/interfaces'
 

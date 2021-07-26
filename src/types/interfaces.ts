@@ -8,6 +8,3 @@ export interface IFilter {
   key: string
   title: string
 }
-export interface TodosState {
-  todos: ITodo[]
-}

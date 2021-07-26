@@ -1,27 +1,27 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react'
-import Context from '../../utils/context'
-import { ITodo } from '../../types/interfaces'
-import { useSelector } from 'react-redux'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleAllTodos } from '../../redux/actions/todoActions'
 
 const ToggleAllInput: React.FC = () => {
-  const [isChecked, setChecked] = useState(true)
-  const { toggleAll } = useContext(Context)
-
-  // useEffect(() => {
-  //   setChecked(
-  //     allTodos.filter((todo: ITodo) => !todo.completed).length === 0
-  //   )
-  // }, [allTodos])
+  const [isChecked, setChecked] = useState(false)
+  const dispatch = useDispatch()
+  const todos = useSelector((state: any) => state.todos.todos)
 
   const handlerToggleAll = useCallback(() => {
-    toggleAll(!isChecked)
-  }, [isChecked, toggleAll])
+    dispatch(toggleAllTodos(!isChecked))
+  }, [dispatch, isChecked])
+
+  useEffect(() => {
+    if (
+      todos.filter((todo) => todo.completed).length === todos.length
+    ) {
+      setChecked(true)
+    } else {
+      setChecked(false)
+    }
+  }, [todos])
 
   return (
     <>
