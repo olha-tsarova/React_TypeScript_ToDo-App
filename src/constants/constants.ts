@@ -26,6 +26,9 @@ export const buttons = [
   { key: filters.completed, title: filters.completed }
 ]
 
+export const SHOW_LOADING = 'SHOW_LOADING'
+export const HIDE_LOADING = 'HIDE_LOADING'
+
 export const FETCH_TODOS_REQUEST = 'FETCH_TODOS_REQUEST'
 export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS'
 export const FETCH_TODOS_FAIL = 'FETCH_TODOS_FAIL'

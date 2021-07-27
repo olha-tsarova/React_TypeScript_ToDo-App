@@ -16,7 +16,15 @@ const todosReducer = (
 ) => {
   switch (action.type) {
     case FETCH_TODOS_SUCCESS:
-      return { ...state, todos: action.payload }
+      return {
+        ...state,
+        todos: action.payload.list,
+        counters: {
+          ...state.counter
+          active: action.payload.active,
+          completed: action.payload.completed
+        }
+      }
 
     case ADD_TODO_SUCCESS:
       return { ...state, todos: [...state.todos, action.payload] }

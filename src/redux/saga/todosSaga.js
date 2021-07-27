@@ -24,6 +24,9 @@ import {
   CLEAR_COMPLETED_TODOS_REQUEST
 } from '../../constants/constants'
 
+const addTodoApiRequest = (data) =>
+  queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, data)
+
 export function* loadTodosSaga() {
   try {
     const response = yield call(
@@ -38,12 +41,7 @@ export function* loadTodosSaga() {
 
 export function* addTodoSaga({ payload: newTodo }) {
   try {
-    const response = yield call(
-      queryToServer,
-      endpoints.ADD_TODO_URL,
-      fetchMethods.M_POST,
-      newTodo
-    )
+    const response = yield call(addTodoApiRequest, newTodo)
     yield put({ type: ADD_TODO_SUCCESS, payload: response })
   } catch (e) {
     yield put({ type: ADD_TODO_FAIL, payload: e })
@@ -109,7 +107,7 @@ export function* clearCompletedTodosSaga() {
 }
 
 export function* todosWatcher() {
-  yield takeLatest(FETCH_TODOS_REQUEST, loadTodosSaga)
+  yield takeLatest([FETCH_TODOS_REQUEST], loadTodosSaga)
   yield takeLatest(ADD_TODO_REQUEST, addTodoSaga)
   yield takeLatest(REMOVE_TODO_REQUEST, removeTodoSaga)
   yield takeLatest(CHANGE_TODO_STATUS_REQUEST, changeTodoStatusSaga)

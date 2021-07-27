@@ -7,14 +7,22 @@ import FooterSection from './components/FooterSection'
 import { ITodo } from './types/interfaces'
 import { createTodo, fetchTodos } from './redux/actions/todoActions'
 import './index.css'
+import { hideLoader, showLoader } from './redux/actions/loaderActions'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
   const todos = useSelector((state: any) => state.todos.todos)
+  const loading = useSelector((state: any) => state.loading.loading)
 
   useEffect(() => {
     dispatch(fetchTodos())
   }, [dispatch])
+
+  // useEffect(() => {
+  //   if (todos.length > 0) {
+  //     dispatch(hideLoader())
+  //   }
+  // }, [dispatch, todos.length])
 
   const addTodo = useCallback(
     (text) => {
@@ -66,6 +74,11 @@ const App: React.FC = () => {
           <MainSection />
           <FooterSection />
         </>
+      )}
+      {loading === true && (
+        <div className="todo-item loader">
+          <span>Loading todos...</span>
+        </div>
       )}
     </section>
   )
