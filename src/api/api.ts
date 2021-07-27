@@ -13,10 +13,7 @@ export function getTodosFromServer(
   options: string
 ): Promise<ITodo[] | void> {
   return fetch(`${API_URL}${options}`)
-    .then((response) => {
-      console.log(response)
-      return response.json()
-    })
+    .then((response) => response.json())
     .catch((err) => console.error(err))
 }
 
@@ -25,7 +22,6 @@ export function queryToServer(
   method: string,
   data: Data
 ): Promise<void | Response> {
-  console.log(`DATA: ${data}`)
   return fetch(`${API_URL}${options}`, {
     method,
     headers: {
@@ -33,6 +29,6 @@ export function queryToServer(
     },
     body: JSON.stringify(data)
   })
-    .then((response) => response)
+    .then((response) => response.json())
     .catch((err) => console.error(err))
 }

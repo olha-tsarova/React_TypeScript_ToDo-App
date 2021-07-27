@@ -16,8 +16,8 @@ const TodoItem: React.FC<ITodoItem> = ({ todo }) => {
   const dispatch = useDispatch()
 
   const handlerTodoStatusChange = useCallback(() => {
-    dispatch(changeTodoStatus(todo.key))
-  }, [dispatch, todo.key])
+    dispatch(changeTodoStatus(todo))
+  }, [dispatch, todo])
 
   const handlerTodoRemove = useCallback(() => {
     dispatch(removeTodo(todo.key))

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  ADD_TODO,
-  CHANGE_TODO_STATUS,
-  CLEAR_COMPLETED_TODOS,
   FETCH_TODOS_SUCCESS,
-  REMOVE_TODO,
-  TOGGLE_ALL_TODOS
+  ADD_TODO_SUCCESS,
+  CHANGE_TODO_STATUS_SUCCESS,
+  CLEAR_COMPLETED_TODOS_SUCCESS,
+  REMOVE_TODO_SUCCESS,
+  TOGGLE_ALL_TODOS_SUCCESS
 } from '../../constants/constants'
 import { ITodo } from '../../types/interfaces'
 import { initialState } from '../initialState'
@@ -18,10 +18,10 @@ const todosReducer = (
     case FETCH_TODOS_SUCCESS:
       return { ...state, todos: action.payload }
 
-    case ADD_TODO:
+    case ADD_TODO_SUCCESS:
       return { ...state, todos: [...state.todos, action.payload] }
 
-    case REMOVE_TODO:
+    case REMOVE_TODO_SUCCESS:
       return {
         ...state,
         todos: state.todos.filter(
@@ -29,33 +29,25 @@ const todosReducer = (
         )
       }
 
-    case CHANGE_TODO_STATUS:
+    case CHANGE_TODO_STATUS_SUCCESS:
       return {
         ...state,
-        todos: state.todos.map((todo: ITodo) => {
-          if (todo.key === action.payload) {
-            const newTodo = {
-              ...todo,
-              completed: !todo.completed
-            }
-
-            return newTodo
+        todos: state.todos.map((todo) => {
+          if (todo.key === (action.payload as ITodo).key) {
+            return action.payload
           }
 
           return todo
         })
       }
 
-    case TOGGLE_ALL_TODOS:
+    case TOGGLE_ALL_TODOS_SUCCESS:
       return {
         ...state,
-        todos: state.todos.map((todo) => ({
-          ...todo,
-          completed: action.payload
-        }))
+        todos: action.payload
       }
 
-    case CLEAR_COMPLETED_TODOS:
+    case CLEAR_COMPLETED_TODOS_SUCCESS:
       return {
         ...state,
         todos: state.todos.filter((todo) => !todo.completed)

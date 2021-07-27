@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +14,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchTodos())
-  })
+  }, [dispatch])
 
   const addTodo = useCallback(
     (text) => {

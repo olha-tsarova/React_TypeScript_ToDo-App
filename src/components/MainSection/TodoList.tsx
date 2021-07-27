@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { useSelector } from 'react-redux'
 
