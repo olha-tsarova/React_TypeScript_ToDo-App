@@ -7,7 +7,6 @@ import FooterSection from './components/FooterSection'
 import { ITodo } from './types/interfaces'
 import { createTodo, fetchTodos } from './redux/actions/todoActions'
 import './index.css'
-import { hideLoader, showLoader } from './redux/actions/loaderActions'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
@@ -17,12 +16,6 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(fetchTodos())
   }, [dispatch])
-
-  // useEffect(() => {
-  //   if (todos.length > 0) {
-  //     dispatch(hideLoader())
-  //   }
-  // }, [dispatch, todos.length])
 
   const addTodo = useCallback(
     (text) => {

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  HIDE_LOADING,
-  SHOW_LOADING,
   FETCH_TODOS_REQUEST,
   FETCH_TODOS_SUCCESS,
   FETCH_TODOS_FAIL
@@ -11,9 +9,10 @@ import {
 const initialLoading = {
   loading: false
 }
+
 const loadingReducer = (
   state = initialLoading,
-  action: { type: any }
+  action: { type: string }
 ) => {
   switch (action.type) {
     case FETCH_TODOS_REQUEST:

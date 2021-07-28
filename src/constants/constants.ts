@@ -5,12 +5,13 @@ export const filters = {
 }
 
 export const endpoints = {
-  GET_TODOS_URL: '/todos',
-  ADD_TODO_URL: '/addtodo',
-  DELETE_TODOS_URL: '/delete',
-  EDIT_TODO_URL: '/edit',
-  TOGGLE_ALL_URL: '/changestatuses',
-  CLEAR_COMPLETED_URL: '/clearcompleted'
+  GET_TODOS_URL: 'todos',
+  GET_COUNTERS_URL: 'counters',
+  ADD_TODO_URL: 'addtodo',
+  DELETE_TODOS_URL: 'delete',
+  EDIT_TODO_URL: 'edit',
+  TOGGLE_ALL_URL: 'changestatuses',
+  CLEAR_COMPLETED_URL: 'clearcompleted'
 }
 
 export const fetchMethods = {
@@ -52,3 +53,5 @@ export const TOGGLE_ALL_TODOS_FAIL = 'TOGGLE_ALL_TODOS_FAIL'
 export const CLEAR_COMPLETED_TODOS_REQUEST = 'CLEAR_COMPLETED_TODOS_REQUEST'
 export const CLEAR_COMPLETED_TODOS_SUCCESS = 'CLEAR_COMPLETED_TODOS_SUCCESS'
 export const CLEAR_COMPLETED_TODOS_FAIL = 'CLEAR_COMPLETED_TODOS_FAIL'
+
+export const UPDATE_COUNTERS = 'UPDATE_COUNTERS'

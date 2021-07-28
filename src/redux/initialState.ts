@@ -2,7 +2,7 @@
 
 export const initialState = {
   todos: [],
-  counter: {
+  counters: {
     active: 0,
     completed: 0
   }

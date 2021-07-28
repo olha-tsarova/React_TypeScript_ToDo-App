@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { endpoints, fetchMethods } from '../constants/constants'
 import { ITodo } from '../types/interfaces'
 
-const API_URL = 'http://127.0.0.1:9800'
+const API_URL = 'http://127.0.0.1:9800/'
 
 type Data =
   | string[]
@@ -9,10 +11,15 @@ type Data =
   | ITodo
   | undefined
 
-export function getTodosFromServer(
-  options: string
+export function getDataFromServer(
+  options: string,
+  params?: string
 ): Promise<ITodo[] | void> {
-  return fetch(`${API_URL}${options}`)
+  console.log(params)
+
+  return fetch(
+    params ? `${API_URL}${options}?${params}` : `${API_URL}${options}`
+  )
     .then((response) => response.json())
     .catch((err) => console.error(err))
 }
@@ -20,7 +27,7 @@ export function getTodosFromServer(
 export function queryToServer(
   options: string,
   method: string,
-  data: Data
+  data?: Data
 ): Promise<void | Response> {
   return fetch(`${API_URL}${options}`, {
     method,
@@ -32,3 +39,24 @@ export function queryToServer(
     .then((response) => response.json())
     .catch((err) => console.error(err))
 }
+
+export const getTodosApiRequest = (params?: string) =>
+  getDataFromServer(endpoints.GET_TODOS_URL, params)
+
+export const getCountersApiRequest = () =>
+  getDataFromServer(endpoints.GET_COUNTERS_URL)
+
+export const addTodoApiRequest = (data: Data) =>
+  queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, data)
+
+export const removeTodoApiRequest = (data: Data) =>
+  queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, data)
+
+export const changeStatusApiRequest = (data: Data) =>
+  queryToServer(endpoints.EDIT_TODO_URL, fetchMethods.M_PATCH, data)
+
+export const toggleAllApiRequest = (data: Data) =>
+  queryToServer(endpoints.TOGGLE_ALL_URL, fetchMethods.M_PATCH, data)
+
+export const clearCompletedApiRequest = () =>
+  queryToServer(endpoints.CLEAR_COMPLETED_URL, fetchMethods.M_DELETE)

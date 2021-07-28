@@ -1,19 +1,14 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { ITodo } from '../../types/interfaces'
+import { useSelector } from 'react-redux'
 
-interface IActiveTodosCounter {
-  activeTodos: ITodo[]
+const ActiveTodosCounter: React.FC = () => {
+  const counters = useSelector((state: any) => state.todos.counters)
+  return (
+    <span className="todo-count">
+      {counters.active === 1 ? '1 item left' : `${counters.active} items left`}
+    </span>
+  )
 }
-
-const ActiveTodosCounter: React.FC<IActiveTodosCounter> = ({
-  activeTodos
-}) => (
-  <span className="todo-count">
-    {activeTodos.length === 1
-      ? '1 item left'
-      : `${activeTodos.length} items left`}
-  </span>
-)
 
 export default ActiveTodosCounter

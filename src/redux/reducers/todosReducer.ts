@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   FETCH_TODOS_SUCCESS,
@@ -5,14 +6,15 @@ import {
   CHANGE_TODO_STATUS_SUCCESS,
   CLEAR_COMPLETED_TODOS_SUCCESS,
   REMOVE_TODO_SUCCESS,
-  TOGGLE_ALL_TODOS_SUCCESS
+  TOGGLE_ALL_TODOS_SUCCESS,
+  UPDATE_COUNTERS
 } from '../../constants/constants'
 import { ITodo } from '../../types/interfaces'
 import { initialState } from '../initialState'
 
 const todosReducer = (
   state = initialState,
-  action: { type: string; payload: ITodo | string | boolean }
+  action: { type: any; payload: any }
 ) => {
   switch (action.type) {
     case FETCH_TODOS_SUCCESS:
@@ -20,21 +22,22 @@ const todosReducer = (
         ...state,
         todos: action.payload.list,
         counters: {
-          ...state.counter
+          ...state.counters,
           active: action.payload.active,
           completed: action.payload.completed
         }
       }
 
     case ADD_TODO_SUCCESS:
-      return { ...state, todos: [...state.todos, action.payload] }
+      return {
+        ...state,
+        todos: [...state.todos, action.payload]
+      }
 
     case REMOVE_TODO_SUCCESS:
       return {
         ...state,
-        todos: state.todos.filter(
-          (todo) => todo.key !== action.payload
-        )
+        todos: state.todos.filter((todo) => todo.key !== action.payload)
       }
 
     case CHANGE_TODO_STATUS_SUCCESS:
@@ -59,6 +62,15 @@ const todosReducer = (
       return {
         ...state,
         todos: state.todos.filter((todo) => !todo.completed)
+      }
+
+    case UPDATE_COUNTERS:
+      return {
+        ...state,
+        counters: {
+          active: action.payload.active,
+          completed: action.payload.completed
+        }
       }
 
     default:

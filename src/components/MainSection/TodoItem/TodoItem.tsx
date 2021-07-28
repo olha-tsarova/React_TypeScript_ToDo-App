@@ -37,11 +37,7 @@ const TodoItem: React.FC<ITodoItem> = ({ todo }) => {
         checked={todo.completed}
       />
       <label htmlFor={`toggle-${todo.key}`}>{todo.title}</label>
-      <button
-        type="button"
-        className="destroy"
-        onClick={handlerTodoRemove}
-      />
+      <button type="button" className="destroy" onClick={handlerTodoRemove} />
     </li>
   )
 }

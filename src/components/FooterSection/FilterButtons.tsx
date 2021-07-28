@@ -1,27 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { useDispatch, useSelector } from 'react-redux'
 import { buttons } from '../../constants/constants'
 import { IFilter } from '../../types/interfaces'
+import { setFilter } from '../../redux/actions/filterActions'
 
-interface IFilterButtons {
-  activeFilter: string
-  setFilter: (text: string) => void
-}
-
-const FilterButtons: React.FC<IFilterButtons> = ({
-  activeFilter,
-  setFilter
-}) => {
+const FilterButtons: React.FC = () => {
   const [filterButtons, setFilterButtons] = useState<IFilter[]>([])
+  const dispatch = useDispatch()
+  const filter = useSelector((state: any) => state.filter.filter)
 
   useEffect(() => setFilterButtons(buttons), [])
 
-  const handlerSetFilter = useCallback(
-    (event) => {
-      setFilter(event.target.textContent)
-    },
-    [setFilter]
-  )
+  const handlerSetFilter = useCallback((event) => {
+    dispatch(setFilter(event.target.textContent))
+  }, [dispatch])
 
   return (
     <ul className="filters">
@@ -30,7 +24,7 @@ const FilterButtons: React.FC<IFilterButtons> = ({
           <button
             type="button"
             className={classNames({
-              selected: activeFilter === filterButton.key
+              selected: filter === filterButton.key
             })}
             onClick={handlerSetFilter}
           >
