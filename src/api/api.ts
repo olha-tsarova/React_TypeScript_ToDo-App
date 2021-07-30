@@ -2,7 +2,7 @@
 import { endpoints, fetchMethods } from '../constants/constants'
 import { ITodo } from '../types/interfaces'
 
-const API_URL = 'http://127.0.0.1:9800/'
+const API_URL = 'http://127.0.0.1:8080/'
 
 type Data =
   | string[]
@@ -34,7 +34,7 @@ export function queryToServer(
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data || '')
   })
     .then((response) => response.json())
     .catch((err) => console.error(err))

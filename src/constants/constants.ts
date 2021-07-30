@@ -17,7 +17,7 @@ export const endpoints = {
 export const fetchMethods = {
   M_GET: 'GET',
   M_POST: 'POST',
-  M_PATCH: 'PATCH',
+  M_PATCH: 'PUT',
   M_DELETE: 'DELETE'
 }
 

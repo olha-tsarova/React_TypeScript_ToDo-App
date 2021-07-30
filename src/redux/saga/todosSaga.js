@@ -70,7 +70,7 @@ export function* addTodoSaga({ payload: newTodo }) {
 
 export function* removeTodoSaga({ payload: todoKey }) {
   try {
-    const response = yield call(removeTodoApiRequest, todoKey)
+    const response = yield call(removeTodoApiRequest, { key: todoKey })
     yield put({ type: REMOVE_TODO_SUCCESS, payload: response })
   } catch (e) {
     yield put({ type: REMOVE_TODO_FAIL, payload: e })
@@ -88,7 +88,7 @@ export function* changeTodoStatusSaga({ payload: todo }) {
 
 export function* toggleAllTodosSaga({ payload: status }) {
   try {
-    const response = yield call(toggleAllApiRequest, status)
+    const response = yield call(toggleAllApiRequest, { status })
     yield put({ type: TOGGLE_ALL_TODOS_SUCCESS, payload: response })
   } catch (e) {
     yield put({ type: TOGGLE_ALL_TODOS_FAIL, payload: e })

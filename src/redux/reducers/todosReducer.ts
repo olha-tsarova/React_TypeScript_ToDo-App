@@ -37,7 +37,7 @@ const todosReducer = (
     case REMOVE_TODO_SUCCESS:
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo.key !== action.payload)
+        todos: state.todos.filter((todo) => todo.key !== action.payload.key)
       }
 
     case CHANGE_TODO_STATUS_SUCCESS:
