@@ -5,7 +5,7 @@ import {
   FETCH_TODOS_REQUEST,
   REMOVE_TODO_REQUEST,
   TOGGLE_ALL_TODOS_REQUEST
-} from '../../constants/constants'
+} from '../../constants'
 import { ITodo } from '../../types/interfaces'
 
 type actionTodoType = (Args?: ITodo | ITodo[] | boolean | string) => {

@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { filters } from '../../constants/constants'
+import { filters } from '../../constants'
 
 const initialFilter = {
-  filter: filters.all
+  filter: ''
 }
 
 const filterReducer = (
   state = initialFilter,
   action: { type: string }
-) => {
+): { filter: string } => {
   switch (action.type) {
     case filters.completed:
       return {

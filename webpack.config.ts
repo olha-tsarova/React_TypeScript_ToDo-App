@@ -32,9 +32,11 @@ const config: webpack.Configuration = {
   },
   output: {
     path: path.resolve(__dirname, 'build'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, 'build'),
     compress: true,
     hot: true,

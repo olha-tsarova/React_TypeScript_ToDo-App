@@ -1,14 +1,16 @@
-/* eslint-disable no-use-before-define */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
-import App from './App'
+import AppRouter from './appRouter'
 import store from './redux'
 
 const app = (
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   </Provider>
 )
 

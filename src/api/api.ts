@@ -1,62 +1,125 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { endpoints, fetchMethods } from '../constants/constants'
+/* eslint-disable consistent-return */
+import { endpoints, fetchMethods } from '../constants'
+import setUserTokens from '../helpers/setUserTokens'
 import { ITodo } from '../types/interfaces'
 
 const API_URL = 'http://127.0.0.1:8080/'
 
 type Data =
-  | string[]
-  | { keys: string[]; completed?: boolean }
-  | string
   | ITodo
-  | undefined
+  | { key?: string; completed?: boolean }
+  | { status?: boolean }
 
-export function getDataFromServer(
-  options: string,
-  params?: string
-): Promise<ITodo[] | void> {
-  console.log(params)
-
-  return fetch(
-    params ? `${API_URL}${options}?${params}` : `${API_URL}${options}`
-  )
-    .then((response) => response.json())
-    .catch((err) => console.error(err))
-}
-
-export function queryToServer(
+export async function queryToServer(
   options: string,
   method: string,
-  data?: Data
-): Promise<void | Response> {
-  return fetch(`${API_URL}${options}`, {
+  params?: string,
+  data?:
+    | { key?: string; completed?: boolean }
+    | { login?: string; password?: string }
+    | { status?: boolean }
+    | ITodo
+    | { oldToken: string }
+): Promise<Response | void> {
+  const request = {
+    options,
     method,
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify(data || '')
-  })
-    .then((response) => response.json())
-    .catch((err) => console.error(err))
+    params,
+    data
+  }
+
+  try {
+    let headers = {
+      'Content-type': 'application/json',
+      Authorization: null
+    }
+
+    if (localStorage.getItem('accessToken')) {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    }
+
+    const response = await fetch(
+      params ? `${API_URL}${options}?${params}` : `${API_URL}${options}`,
+      data
+        ? {
+          method,
+          headers,
+          body: JSON.stringify(data)
+        }
+        : {
+          method,
+          headers
+        }
+    )
+    if (response.ok) {
+      return response.json()
+    }
+
+    if (response.status === 401) {
+      const res = await refreshUserTokenApiRequest()
+      setUserTokens(res)
+
+      return queryToServer(
+        request.options,
+        request.method,
+        request.params,
+        request.data
+      )
+    }
+  } catch (e) {
+    console.log(e.message)
+  }
 }
 
-export const getTodosApiRequest = (params?: string) =>
-  getDataFromServer(endpoints.GET_TODOS_URL, params)
+export const getTodosApiRequest = (
+  params?: string
+): Promise<Response | void> =>
+  queryToServer(endpoints.GET_TODOS_URL, fetchMethods.M_GET, params)
 
-export const getCountersApiRequest = () =>
-  getDataFromServer(endpoints.GET_COUNTERS_URL)
+export const getCountersApiRequest = (): Promise<Response | void> =>
+  queryToServer(endpoints.GET_COUNTERS_URL, fetchMethods.M_GET)
 
-export const addTodoApiRequest = (data: Data) =>
-  queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, data)
+export const addTodoApiRequest = (data: Data): Promise<Response | void> =>
+  queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, '', data)
 
-export const removeTodoApiRequest = (data: Data) =>
-  queryToServer(endpoints.DELETE_TODOS_URL, fetchMethods.M_DELETE, data)
+export const removeTodoApiRequest = (
+  data: Data
+): Promise<Response | void> =>
+  queryToServer(
+    endpoints.DELETE_TODOS_URL,
+    fetchMethods.M_DELETE,
+    '',
+    data
+  )
 
-export const changeStatusApiRequest = (data: Data) =>
-  queryToServer(endpoints.EDIT_TODO_URL, fetchMethods.M_PATCH, data)
+export const changeStatusApiRequest = (
+  data: Data
+): Promise<Response | void> =>
+  queryToServer(endpoints.EDIT_TODO_URL, fetchMethods.M_PATCH, '', data)
 
-export const toggleAllApiRequest = (data: Data) =>
-  queryToServer(endpoints.TOGGLE_ALL_URL, fetchMethods.M_PATCH, data)
+export const toggleAllApiRequest = (
+  data: Data
+): Promise<Response | void> =>
+  queryToServer(endpoints.TOGGLE_ALL_URL, fetchMethods.M_PATCH, '', data)
 
-export const clearCompletedApiRequest = () =>
+export const clearCompletedApiRequest = (): Promise<Response | void> =>
   queryToServer(endpoints.CLEAR_COMPLETED_URL, fetchMethods.M_DELETE)
+
+export const addUserApiRequest = (data: Data): Promise<Response | void> =>
+  queryToServer(endpoints.ADD_USER_URL, fetchMethods.M_POST, '', data)
+
+export const loginUserApiRequest = (data: {
+  login
+  password
+}): Promise<Response | void> =>
+  queryToServer(endpoints.LOGIN_USER_URL, fetchMethods.M_POST, '', data)
+
+export const refreshUserTokenApiRequest = (): Promise<Response | void> =>
+  queryToServer(
+    endpoints.REFRESH_TOKEN_URL,
+    fetchMethods.M_GET,
+    `oldToken=${localStorage.getItem('refreshToken')}`
+  )

@@ -1,4 +1,4 @@
-import { HIDE_LOADING, SHOW_LOADING } from '../../constants/constants'
+import { HIDE_LOADING, SHOW_LOADING } from '../../constants'
 
 type actionLoaderType = () => { type: string }
 

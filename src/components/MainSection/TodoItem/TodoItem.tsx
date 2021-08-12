@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useCallback } from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'

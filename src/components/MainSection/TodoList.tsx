@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { useSelector } from 'react-redux'
 
@@ -6,7 +5,7 @@ import { ITodo } from '../../types/interfaces'
 import TodoItem from './TodoItem'
 
 const TodoList: React.FC = () => {
-  const todos = useSelector((state: any) => state.todos.todos)
+  const todos = useSelector((state: { todos }) => state.todos.todos)
 
   return (
     <ul className="todo-list">

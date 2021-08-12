@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleAllTodos } from '../../redux/actions/todoActions'
@@ -7,7 +5,8 @@ import { toggleAllTodos } from '../../redux/actions/todoActions'
 const ToggleAllInput: React.FC = () => {
   const [isChecked, setChecked] = useState(false)
   const dispatch = useDispatch()
-  const todos = useSelector((state: any) => state.todos.todos)
+  const todos = useSelector((state: { todos }) => state.todos.todos)
+  const { completed } = useSelector((state: { todos }) => state.todos.counters)
 
   const handlerToggleAll = useCallback(() => {
     dispatch(toggleAllTodos(!isChecked))
@@ -15,13 +14,13 @@ const ToggleAllInput: React.FC = () => {
 
   useEffect(() => {
     if (
-      todos.filter((todo) => todo.completed).length === todos.length
+      completed === todos.length
     ) {
       setChecked(true)
     } else {
       setChecked(false)
     }
-  }, [todos])
+  }, [todos, completed])
 
   return (
     <>

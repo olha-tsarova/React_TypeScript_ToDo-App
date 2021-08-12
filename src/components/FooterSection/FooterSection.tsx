@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
 import { useSelector } from 'react-redux'
@@ -7,13 +6,13 @@ import FilterButtons from './FilterButtons'
 import ActiveTodosCounter from './ActiveTodosCounter'
 
 const FooterSection: React.FC = () => {
-  const counters = useSelector((state: any) => state.todos.counters)
+  const counters = useSelector(
+    (state: { todos }) => state.todos.counters
+  )
 
   return (
     <section className="footer">
-      {counters.active > 0 && (
-        <ActiveTodosCounter />
-      )}
+      {counters.active > 0 && <ActiveTodosCounter />}
       <FilterButtons />
       {counters.completed > 0 && <ClearCompletedButton />}
     </section>

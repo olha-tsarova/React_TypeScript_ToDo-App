@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,11 +6,17 @@ import FooterSection from './components/FooterSection'
 import { ITodo } from './types/interfaces'
 import { createTodo, fetchTodos } from './redux/actions/todoActions'
 import './index.css'
+import { logOutUser } from './redux/actions/userActions'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
-  const todos = useSelector((state: any) => state.todos.todos)
-  const loading = useSelector((state: any) => state.loading.loading)
+  const { active, completed } = useSelector(
+    (state: { todos }) => state.todos.counters
+  )
+  const loading = useSelector(
+    (state: { loading }) => state.loading.loading
+  )
+  const user = useSelector((state: { user }) => state.user.user)
 
   useEffect(() => {
     dispatch(fetchTodos())
@@ -48,32 +53,52 @@ const App: React.FC = () => {
     [addTodo]
   )
 
+  const hanglerLogOut = useCallback(
+    () => {
+      dispatch(logOutUser())
+      localStorage.clear()
+    }, [dispatch]
+  )
+
   return (
-    <section className="todoapp">
-      <header className="header">
-        <h1>todos</h1>
-        <form>
-          <input
-            className="new-todo"
-            type="text"
-            placeholder="What needs to be done?"
-            autoFocus
-            onKeyPress={handlerAddTodo}
-          />
-        </form>
-      </header>
-      {todos.length > 0 && (
-        <>
-          <MainSection />
-          <FooterSection />
-        </>
-      )}
-      {loading === true && (
-        <div className="todo-item loader">
-          <span>Loading todos...</span>
-        </div>
-      )}
-    </section>
+    <>
+      <div className="user-info">
+        <span>{user.login}</span>
+        <span>{user.email}</span>
+        <button
+          type="button"
+          className="button-logout"
+          onClick={hanglerLogOut}
+        >
+          Log out
+        </button>
+      </div>
+      <section className="todoapp">
+        <header className="header">
+          <h1>todos</h1>
+          <form>
+            <input
+              className="new-todo"
+              type="text"
+              placeholder="What needs to be done?"
+              autoFocus
+              onKeyPress={handlerAddTodo}
+            />
+          </form>
+        </header>
+        {(active > 0 || completed > 0) && (
+          <>
+            <MainSection />
+            <FooterSection />
+          </>
+        )}
+        {loading === true && (
+          <div className="todo-item loader">
+            <span>Loading todos...</span>
+          </div>
+        )}
+      </section>
+    </>
   )
 }
 
