@@ -5,7 +5,8 @@ import {
   CLEAR_COMPLETED_TODOS_SUCCESS,
   REMOVE_TODO_SUCCESS,
   TOGGLE_ALL_TODOS_SUCCESS,
-  UPDATE_COUNTERS
+  UPDATE_COUNTERS,
+  ON_TODO_ADDED
 } from '../../constants'
 import { IState } from '../../types/interfaces'
 import { initialTodosState } from '../initialState'
@@ -26,6 +27,7 @@ const todosReducer = (
         }
       }
 
+    case ON_TODO_ADDED:
     case ADD_TODO_SUCCESS:
       return {
         ...state,

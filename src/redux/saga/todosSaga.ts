@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   ActionChannelEffect,
   call,
@@ -13,6 +14,7 @@ import {
   clearCompletedApiRequest,
   getCountersApiRequest
 } from '../../api'
+import socket from '../../api/websocket'
 import {
   ADD_TODO_FAIL,
   ADD_TODO_REQUEST,
@@ -33,7 +35,8 @@ import {
   CLEAR_COMPLETED_TODOS_FAIL,
   CLEAR_COMPLETED_TODOS_REQUEST,
   UPDATE_COUNTERS,
-  filters
+  filters,
+  ON_TODO_ADDED
 } from '../../constants'
 
 export function* loadTodosSaga(): Generator {
@@ -77,6 +80,7 @@ export function* addTodoSaga({
   try {
     const response = yield call(addTodoApiRequest, newTodo)
     if (response) {
+      socket.emit(ON_TODO_ADDED, response)
       yield put({ type: ADD_TODO_SUCCESS, payload: response })
     }
   } catch (e) {
@@ -193,4 +197,5 @@ export function* todosWatcher(): Generator {
   )
   yield takeLatest(filters.completed, loadCompletedTodosSaga)
   yield takeLatest(filters.active, loadActiveTodosSaga)
+  // yield fork(onAddTodoSaga, socket)
 }

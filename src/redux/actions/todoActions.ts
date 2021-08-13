@@ -3,6 +3,7 @@ import {
   CHANGE_TODO_STATUS_REQUEST,
   CLEAR_COMPLETED_TODOS_REQUEST,
   FETCH_TODOS_REQUEST,
+  ON_TODO_ADDED,
   REMOVE_TODO_REQUEST,
   TOGGLE_ALL_TODOS_REQUEST
 } from '../../constants'
@@ -15,6 +16,11 @@ type actionTodoType = (Args?: ITodo | ITodo[] | boolean | string) => {
 
 export const createTodo: actionTodoType = (newTodo) => ({
   type: ADD_TODO_REQUEST,
+  payload: newTodo
+})
+
+export const onTodoAdded: actionTodoType = (newTodo) => ({
+  type: ON_TODO_ADDED,
   payload: newTodo
 })
 

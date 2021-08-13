@@ -30,6 +30,9 @@ export const buttons = [
   { key: filters.completed, title: filters.completed }
 ]
 
+export const API_URL = 'http://127.0.0.1:8080/'
+export const WS_API_URL = 'http://127.0.0.1:3001/'
+
 export const SHOW_LOADING = 'SHOW_LOADING'
 export const HIDE_LOADING = 'HIDE_LOADING'
 
@@ -44,6 +47,8 @@ export const ADD_TODO_FAIL = 'ADD_TODO_FAIL'
 export const ADD_USER_REQUEST = 'ADD_USER_REQUEST'
 export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS'
 export const ADD_USER_FAIL = 'ADD_USER_FAIL'
+
+export const ON_TODO_ADDED = 'todo-add'
 
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS'

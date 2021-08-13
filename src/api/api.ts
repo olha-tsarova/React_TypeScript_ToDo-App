@@ -1,9 +1,7 @@
 /* eslint-disable consistent-return */
-import { endpoints, fetchMethods } from '../constants'
+import { API_URL, endpoints, fetchMethods } from '../constants'
 import setUserTokens from '../helpers/setUserTokens'
 import { ITodo } from '../types/interfaces'
-
-const API_URL = 'http://127.0.0.1:8080/'
 
 type Data =
   | ITodo
