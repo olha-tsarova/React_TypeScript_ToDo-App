@@ -1,7 +1,7 @@
 export const filters = {
   completed: 'Completed',
   active: 'Active',
-  all: 'All'
+  all: 'All',
 }
 
 export const endpoints = {
@@ -14,20 +14,20 @@ export const endpoints = {
   CLEAR_COMPLETED_URL: 'clearcompleted',
   ADD_USER_URL: 'public/adduser',
   REFRESH_TOKEN_URL: 'public/refreshtoken',
-  LOGIN_USER_URL: 'public/login'
+  LOGIN_USER_URL: 'public/login',
 }
 
 export const fetchMethods = {
   M_GET: 'GET',
   M_POST: 'POST',
   M_PATCH: 'PUT',
-  M_DELETE: 'DELETE'
+  M_DELETE: 'DELETE',
 }
 
 export const buttons = [
   { key: filters.all, title: filters.all },
   { key: filters.active, title: filters.active },
-  { key: filters.completed, title: filters.completed }
+  { key: filters.completed, title: filters.completed },
 ]
 
 export const API_URL = 'http://127.0.0.1:8080/'
@@ -48,7 +48,16 @@ export const ADD_USER_REQUEST = 'ADD_USER_REQUEST'
 export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS'
 export const ADD_USER_FAIL = 'ADD_USER_FAIL'
 
-export const ON_TODO_ADDED = 'todo-add'
+export const ON_USER_CONNECTED = 'ON_USER_CONNECTED'
+export const ON_USER_DISCONNECTED = 'user:disconnected'
+export const ON_APP_OPEN = 'ON_APP_OPEN'
+export const ON_TODO_ADDED = 'todo:added'
+export const ON_TODO_CLEAR_COMPLETED = 'todo:clear-completed'
+export const ON_TODO_CHANGED = 'todo:edited'
+export const ON_TODO_GET = 'todo:get'
+export const ON_TODO_GET_COUNTERS = 'todo:get-counters'
+export const ON_TODO_DELETED = 'todo:deleted'
+export const ON_TODOS_TOGGLED = 'todo:toggled'
 
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS'

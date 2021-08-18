@@ -1,30 +1,30 @@
 import { filters } from '../../constants'
 
 const initialFilter = {
-  filter: ''
+  filter: '',
 }
 
 const filterReducer = (
   state = initialFilter,
-  action: { type: string }
+  action: { type: string },
 ): { filter: string } => {
   switch (action.type) {
     case filters.completed:
       return {
         ...state,
-        filter: filters.completed
+        filter: filters.completed,
       }
 
     case filters.active:
       return {
         ...state,
-        filter: filters.active
+        filter: filters.active,
       }
 
     default:
       return {
         ...state,
-        filter: filters.all
+        filter: filters.all,
       }
   }
 }

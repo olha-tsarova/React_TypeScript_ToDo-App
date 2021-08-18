@@ -6,18 +6,24 @@ import { loginUser } from '../redux/actions/userActions'
 const Login: React.FC = () => {
   const dispatch = useDispatch()
 
-  const loginRequest = useCallback((data) => {
-    const candidate = {
-      login: data.login.value.trim(),
-      password: data.password.value.trim()
-    }
-    dispatch(loginUser(candidate))
-  }, [dispatch])
+  const loginRequest = useCallback(
+    (data) => {
+      const candidate = {
+        login: data.login.value.trim(),
+        password: data.password.value.trim(),
+      }
+      dispatch(loginUser(candidate))
+    },
+    [dispatch],
+  )
 
-  const handlerLoginSubmit = useCallback((event) => {
-    event.preventDefault()
-    loginRequest(event.target)
-  }, [loginRequest])
+  const handlerLoginSubmit = useCallback(
+    (event) => {
+      event.preventDefault()
+      loginRequest(event.target)
+    },
+    [loginRequest],
+  )
 
   return (
     <section className="todoapp">

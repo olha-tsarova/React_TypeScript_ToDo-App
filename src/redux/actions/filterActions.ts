@@ -2,5 +2,5 @@
 type actionFilterType = (value: string) => { type: string }
 
 export const setFilter: actionFilterType = (value: string) => ({
-  type: value
+  type: value,
 })

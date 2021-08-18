@@ -5,7 +5,7 @@ import { ITodo } from '../types/interfaces'
 
 type Data =
   | ITodo
-  | { key?: string; completed?: boolean }
+  | { completed?: boolean }
   | { status?: boolean }
 
 export async function queryToServer(
@@ -13,29 +13,30 @@ export async function queryToServer(
   method: string,
   params?: string,
   data?:
-    | { key?: string; completed?: boolean }
+    | { completed?: boolean }
     | { login?: string; password?: string }
     | { status?: boolean }
+    | { id?: number }
     | ITodo
-    | { oldToken: string }
+    | { oldToken: string },
 ): Promise<Response | void> {
   const request = {
     options,
     method,
     params,
-    data
+    data,
   }
 
   try {
     let headers = {
       'Content-type': 'application/json',
-      Authorization: null
+      Authorization: null,
     }
 
     if (localStorage.getItem('accessToken')) {
       headers = {
         ...headers,
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       }
     }
 
@@ -45,12 +46,12 @@ export async function queryToServer(
         ? {
           method,
           headers,
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         }
         : {
           method,
-          headers
-        }
+          headers,
+        },
     )
     if (response.ok) {
       return response.json()
@@ -64,7 +65,7 @@ export async function queryToServer(
         request.options,
         request.method,
         request.params,
-        request.data
+        request.data,
       )
     }
   } catch (e) {
@@ -73,7 +74,7 @@ export async function queryToServer(
 }
 
 export const getTodosApiRequest = (
-  params?: string
+  params?: string,
 ): Promise<Response | void> =>
   queryToServer(endpoints.GET_TODOS_URL, fetchMethods.M_GET, params)
 
@@ -84,22 +85,22 @@ export const addTodoApiRequest = (data: Data): Promise<Response | void> =>
   queryToServer(endpoints.ADD_TODO_URL, fetchMethods.M_POST, '', data)
 
 export const removeTodoApiRequest = (
-  data: Data
+  data: { id: number},
 ): Promise<Response | void> =>
   queryToServer(
     endpoints.DELETE_TODOS_URL,
     fetchMethods.M_DELETE,
     '',
-    data
+    data,
   )
 
 export const changeStatusApiRequest = (
-  data: Data
+  data: Data,
 ): Promise<Response | void> =>
   queryToServer(endpoints.EDIT_TODO_URL, fetchMethods.M_PATCH, '', data)
 
 export const toggleAllApiRequest = (
-  data: Data
+  data: Data,
 ): Promise<Response | void> =>
   queryToServer(endpoints.TOGGLE_ALL_URL, fetchMethods.M_PATCH, '', data)
 
@@ -119,5 +120,5 @@ export const refreshUserTokenApiRequest = (): Promise<Response | void> =>
   queryToServer(
     endpoints.REFRESH_TOKEN_URL,
     fetchMethods.M_GET,
-    `oldToken=${localStorage.getItem('refreshToken')}`
+    `oldToken=${localStorage.getItem('refreshToken')}`,
   )

@@ -1,7 +1,8 @@
 export interface ITodo {
   title: string
   completed: boolean
-  key: string
+  // key: string
+  id?: number
 }
 
 export interface IFilter {

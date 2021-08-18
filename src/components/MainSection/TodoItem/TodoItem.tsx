@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { ITodo } from '../../../types/interfaces'
 import {
   changeTodoStatus,
-  removeTodo
+  removeTodo,
 } from '../../../redux/actions/todoActions'
 
 interface ITodoItem {
@@ -19,24 +19,28 @@ const TodoItem: React.FC<ITodoItem> = ({ todo }) => {
   }, [dispatch, todo])
 
   const handlerTodoRemove = useCallback(() => {
-    dispatch(removeTodo(todo.key))
-  }, [dispatch, todo.key])
+    dispatch(removeTodo(todo.id))
+  }, [dispatch, todo.id])
 
   return (
     <li
       className={classNames('todo-item', {
-        completed: todo.completed
+        completed: todo.completed,
       })}
     >
       <input
-        id={`toggle-${todo.key}`}
+        id={`toggle-${todo.id}`}
         className="toggle"
         type="checkbox"
         onChange={handlerTodoStatusChange}
         checked={todo.completed}
       />
-      <label htmlFor={`toggle-${todo.key}`}>{todo.title}</label>
-      <button type="button" className="destroy" onClick={handlerTodoRemove} />
+      <label htmlFor={`toggle-${todo.id}`}>{todo.title}</label>
+      <button
+        type="button"
+        className="destroy"
+        onClick={handlerTodoRemove}
+      />
     </li>
   )
 }

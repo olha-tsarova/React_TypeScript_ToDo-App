@@ -1,17 +1,17 @@
 import {
   FETCH_TODOS_REQUEST,
   FETCH_TODOS_SUCCESS,
-  FETCH_TODOS_FAIL
+  FETCH_TODOS_FAIL,
 } from '../../constants'
 
 const initialLoading = {
-  loading: false
+  loading: false,
 }
 
 const loadingReducer = (
   state = initialLoading,
-  action: { type: string }
-): { loading: boolean} => {
+  action: { type: string },
+): { loading: boolean } => {
   switch (action.type) {
     case FETCH_TODOS_REQUEST:
       return { ...state, loading: true }

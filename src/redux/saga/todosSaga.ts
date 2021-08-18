@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   ActionChannelEffect,
   call,
   put,
-  takeLatest
+  takeLatest,
 } from 'redux-saga/effects'
 import {
   getTodosApiRequest,
@@ -12,9 +11,8 @@ import {
   changeStatusApiRequest,
   toggleAllApiRequest,
   clearCompletedApiRequest,
-  getCountersApiRequest
+  getCountersApiRequest,
 } from '../../api'
-import socket from '../../api/websocket'
 import {
   ADD_TODO_FAIL,
   ADD_TODO_REQUEST,
@@ -36,7 +34,6 @@ import {
   CLEAR_COMPLETED_TODOS_REQUEST,
   UPDATE_COUNTERS,
   filters,
-  ON_TODO_ADDED
 } from '../../constants'
 
 export function* loadTodosSaga(): Generator {
@@ -73,14 +70,13 @@ export function* loadCompletedTodosSaga(): Generator {
 }
 
 export function* addTodoSaga({
-  payload: newTodo
+  payload: newTodo,
 }: {
   payload
 }): Generator {
   try {
     const response = yield call(addTodoApiRequest, newTodo)
     if (response) {
-      socket.emit(ON_TODO_ADDED, response)
       yield put({ type: ADD_TODO_SUCCESS, payload: response })
     }
   } catch (e) {
@@ -89,13 +85,13 @@ export function* addTodoSaga({
 }
 
 export function* removeTodoSaga({
-  payload: todoKey
+  payload: todoId,
 }: {
   payload
 }): Generator {
   try {
     const response = yield call(removeTodoApiRequest, {
-      key: todoKey
+      id: todoId,
     })
     if (response) {
       yield put({ type: REMOVE_TODO_SUCCESS, payload: response })
@@ -106,7 +102,7 @@ export function* removeTodoSaga({
 }
 
 export function* changeTodoStatusSaga({
-  payload: todo
+  payload: todo,
 }: {
   payload
 }): Generator {
@@ -121,7 +117,7 @@ export function* changeTodoStatusSaga({
 }
 
 export function* toggleAllTodosSaga({
-  payload: bool
+  payload: bool,
 }: {
   payload
 }): Generator {
@@ -141,7 +137,7 @@ export function* clearCompletedTodosSaga(): Generator {
     if (response) {
       yield put({
         type: CLEAR_COMPLETED_TODOS_SUCCESS,
-        payload: response
+        payload: response,
       })
     }
   } catch (e) {
@@ -155,7 +151,7 @@ export function* updateCountersSaga(): Generator {
     if (response) {
       yield put({
         type: UPDATE_COUNTERS,
-        payload: response
+        payload: response,
       })
     }
   } catch (e) {
@@ -166,7 +162,7 @@ export function* updateCountersSaga(): Generator {
 export function* todosWatcher(): Generator {
   yield takeLatest<ActionChannelEffect>(
     [FETCH_TODOS_REQUEST, filters.all],
-    loadTodosSaga
+    loadTodosSaga,
   )
   yield takeLatest<ActionChannelEffect>(ADD_TODO_REQUEST, addTodoSaga)
   yield takeLatest(
@@ -175,27 +171,26 @@ export function* todosWatcher(): Generator {
       REMOVE_TODO_SUCCESS,
       CHANGE_TODO_STATUS_SUCCESS,
       TOGGLE_ALL_TODOS_SUCCESS,
-      CLEAR_COMPLETED_TODOS_SUCCESS
+      CLEAR_COMPLETED_TODOS_SUCCESS,
     ],
-    updateCountersSaga
+    updateCountersSaga,
   )
   yield takeLatest<ActionChannelEffect>(
     REMOVE_TODO_REQUEST,
-    removeTodoSaga
+    removeTodoSaga,
   )
   yield takeLatest<ActionChannelEffect>(
     CHANGE_TODO_STATUS_REQUEST,
-    changeTodoStatusSaga
+    changeTodoStatusSaga,
   )
   yield takeLatest<ActionChannelEffect>(
     TOGGLE_ALL_TODOS_REQUEST,
-    toggleAllTodosSaga
+    toggleAllTodosSaga,
   )
   yield takeLatest<ActionChannelEffect>(
     CLEAR_COMPLETED_TODOS_REQUEST,
-    clearCompletedTodosSaga
+    clearCompletedTodosSaga,
   )
   yield takeLatest(filters.completed, loadCompletedTodosSaga)
   yield takeLatest(filters.active, loadActiveTodosSaga)
-  // yield fork(onAddTodoSaga, socket)
 }

@@ -9,7 +9,7 @@ import SecureRoute from './SecureRoute'
 
 const AppRouter: React.FC = () => {
   const isAutorized = useSelector(
-    (state: { user }) => state.user.isAutorized
+    (state: { user }) => state.user.isAutorized,
   )
   const dispatch = useDispatch()
 
@@ -24,12 +24,8 @@ const AppRouter: React.FC = () => {
       <SecureRoute exact path="/app" component={App} secure />
       <SecureRoute exact path="/login" component={Login} />
       <SecureRoute exact path="/register" component={Register} />
-      {!isAutorized && (
-        <Redirect from="/" to="/login" />
-      )}
-      {isAutorized && (
-        <Redirect from="/" to="/app" />
-      )}
+      {!isAutorized && <Redirect from="/" to="/login" />}
+      {isAutorized && <Redirect from="/" to="/app" />}
     </Switch>
   )
 }

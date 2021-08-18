@@ -6,9 +6,7 @@ import FilterButtons from './FilterButtons'
 import ActiveTodosCounter from './ActiveTodosCounter'
 
 const FooterSection: React.FC = () => {
-  const counters = useSelector(
-    (state: { todos }) => state.todos.counters
-  )
+  const counters = useSelector((state: { todos }) => state.todos.counters)
 
   return (
     <section className="footer">

@@ -6,7 +6,7 @@ import { Redirect, Route } from 'react-router'
 
 const SecureRoute = ({ component: Component, ...rest }: any) => {
   const isAutorized = useSelector(
-    (state: { user }) => state.user.isAutorized
+    (state: { user }) => state.user.isAutorized,
   )
   if (rest.secure) {
     return (

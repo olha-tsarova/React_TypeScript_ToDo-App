@@ -13,11 +13,11 @@ const Register: React.FC = () => {
         name: data.name.value.trim(),
         email: data.email.value.trim(),
         login: data.login.value.trim(),
-        password: data.password.value.trim()
+        password: data.password.value.trim(),
       }
       dispatch(registerUser(newUser))
     },
-    [dispatch]
+    [dispatch],
   )
 
   const handlerAddUser = useCallback(
@@ -26,7 +26,7 @@ const Register: React.FC = () => {
       addNewUser(event.target)
       history.push('/login')
     },
-    [history, addNewUser]
+    [history, addNewUser],
   )
 
   return (

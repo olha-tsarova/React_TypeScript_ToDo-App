@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { v4 as uuid } from 'uuid'
+// import { v4 as uuid } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import MainSection from './components/MainSection'
 import FooterSection from './components/FooterSection'
@@ -11,10 +11,10 @@ import { logOutUser } from './redux/actions/userActions'
 const App: React.FC = () => {
   const dispatch = useDispatch()
   const { active, completed } = useSelector(
-    (state: { todos }) => state.todos.counters
+    (state: { todos }) => state.todos.counters,
   )
   const loading = useSelector(
-    (state: { loading }) => state.loading.loading
+    (state: { loading }) => state.loading.loading,
   )
   const user = useSelector((state: { user }) => state.user.user)
 
@@ -29,17 +29,14 @@ const App: React.FC = () => {
         return
       }
 
-      const key: string = uuid()
-
       const newTodo: ITodo = {
         title: task,
         completed: false,
-        key
       }
 
       dispatch(createTodo(newTodo))
     },
-    [dispatch]
+    [dispatch],
   )
 
   const handlerAddTodo = useCallback(
@@ -50,15 +47,14 @@ const App: React.FC = () => {
         event.target.value = ''
       }
     },
-    [addTodo]
+    [addTodo],
   )
 
-  const hanglerLogOut = useCallback(
-    () => {
-      dispatch(logOutUser())
-      localStorage.clear()
-    }, [dispatch]
-  )
+  const hanglerLogOut = useCallback(() => {
+    dispatch(logOutUser())
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+  }, [dispatch])
 
   return (
     <>

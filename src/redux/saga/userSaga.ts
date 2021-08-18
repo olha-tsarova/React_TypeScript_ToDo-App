@@ -3,12 +3,12 @@ import {
   ActionChannelEffect,
   call,
   put,
-  takeLatest
+  takeLatest,
 } from 'redux-saga/effects'
 import {
   addUserApiRequest,
   loginUserApiRequest,
-  refreshUserTokenApiRequest
+  refreshUserTokenApiRequest,
 } from '../../api'
 import {
   ADD_USER_SUCCESS,
@@ -19,12 +19,13 @@ import {
   ADD_USER_REQUEST,
   REFRESH_TOKEN_SUCCESS,
   REFRESH_TOKEN_FAIL,
-  REFRESH_TOKEN_REQUEST
+  REFRESH_TOKEN_REQUEST,
 } from '../../constants'
+import setUserId from '../../helpers/setUserId'
 import setUserTokens from '../../helpers/setUserTokens'
 
 export function* loginUserSaga({
-  payload: userData
+  payload: userData,
 }: {
   payload
 }): Generator {
@@ -32,6 +33,7 @@ export function* loginUserSaga({
     const response = yield call(loginUserApiRequest, userData)
     if (response) {
       setUserTokens(response)
+      setUserId(response)
       yield put({ type: LOGIN_USER_SUCCESS, payload: response })
     }
   } catch (error) {
@@ -40,7 +42,7 @@ export function* loginUserSaga({
 }
 
 export function* registerUserSaga({
-  payload: newUser
+  payload: newUser,
 }: {
   payload
 }): Generator {
@@ -69,5 +71,8 @@ export function* refreshUserTokenSaga(): Generator {
 export function* usersWatcher(): Generator {
   yield takeLatest<ActionChannelEffect>(LOGIN_USER_REQUEST, loginUserSaga)
   yield takeLatest<ActionChannelEffect>(ADD_USER_REQUEST, registerUserSaga)
-  yield takeLatest<ActionChannelEffect>(REFRESH_TOKEN_REQUEST, refreshUserTokenSaga)
+  yield takeLatest<ActionChannelEffect>(
+    REFRESH_TOKEN_REQUEST,
+    refreshUserTokenSaga,
+  )
 }

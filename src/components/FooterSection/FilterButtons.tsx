@@ -8,9 +8,7 @@ import { setFilter } from '../../redux/actions/filterActions'
 const FilterButtons: React.FC = () => {
   const [filterButtons, setFilterButtons] = useState<IFilter[]>([])
   const dispatch = useDispatch()
-  const filter = useSelector(
-    (state: { filter }) => state.filter.filter
-  )
+  const filter = useSelector((state: { filter }) => state.filter.filter)
 
   useEffect(() => setFilterButtons(buttons), [])
 
@@ -18,7 +16,7 @@ const FilterButtons: React.FC = () => {
     (event) => {
       dispatch(setFilter(event.target.name))
     },
-    [dispatch]
+    [dispatch],
   )
 
   return (
@@ -29,7 +27,7 @@ const FilterButtons: React.FC = () => {
             type="button"
             name={filterButton.title}
             className={classNames({
-              selected: filter === filterButton.key
+              selected: filter === filterButton.key,
             })}
             onClick={handlerSetFilter}
           >

@@ -6,16 +6,16 @@ const ToggleAllInput: React.FC = () => {
   const [isChecked, setChecked] = useState(false)
   const dispatch = useDispatch()
   const todos = useSelector((state: { todos }) => state.todos.todos)
-  const { completed } = useSelector((state: { todos }) => state.todos.counters)
+  const { completed } = useSelector(
+    (state: { todos }) => state.todos.counters,
+  )
 
   const handlerToggleAll = useCallback(() => {
     dispatch(toggleAllTodos(!isChecked))
   }, [dispatch, isChecked])
 
   useEffect(() => {
-    if (
-      completed === todos.length
-    ) {
+    if (completed === todos.length) {
       setChecked(true)
     } else {
       setChecked(false)

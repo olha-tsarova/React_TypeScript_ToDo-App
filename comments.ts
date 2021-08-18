@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 // useEffect(() => {
 //   getTodosFromServer(endpoints.GET_TODOS_URL).then((response) => {
 //     if (response) {
@@ -152,3 +153,86 @@
 // useEffect(() => {
 //   setTodos(todos)
 // }, [todos])
+// import { all, apply, call, fork, put, take } from 'redux-saga/effects'
+// import { eventChannel } from 'redux-saga'
+// import * as actions from '../actions'
+// import io from 'socket.io-client'
+
+// function createSocketConnection(url, namespace) {
+//   return io(url + '/' + namespace)
+// }
+
+// function createSocketChannel(socket) {
+//   return eventChannel((emit) => {
+//     const eventHandler = (event) => {
+//       emit(event.payload)
+//     }
+
+//     const errorHandler = (errorEvent) => {
+//       emit(new Error(errorEvent.reason))
+//     }
+
+//     socket.on('message', eventHandler)
+//     socket.on('error', errorHandler)
+
+//     const unsubscribe = () => {
+//       socket.off('message', eventHandler)
+//     }
+
+//     return unsubscribe
+//   })
+// }
+
+// function* writeSocket(socket) {
+//   while (true) {
+//     const { eventName, payload } = yield take(actions.WEBSOCKET_SEND)
+//     socket.emit(eventName, payload)
+//   }
+// }
+
+// function* watchSocketChannel() {
+//   const socket = yield call(
+//     createSocketConnection,
+//     'http://localhost:3000',
+//     'terminal'
+//   )
+//   const socketChannel = yield call(createSocketChannel, socket)
+
+//   console.log(socket)
+
+//   while (true) {
+//     try {
+//       const payload = yield take(socketChannel)
+//       yield put({ type: actions.WEBSOCKET_MESSAGE, payload })
+//     } catch (err) {
+//       console.log('socket error: ', err)
+//     }
+//   }
+// }
+
+// userlist = {} // Массив юзеров
+// io.sockets.on('connection', function (socket) {
+//   socket.on('connect', function (data, callback) {
+//     socket.user_id = data.user_id // в user_id передаём идентификатор пользователя
+//     if (socket.user_id in userlist) {
+//       callback(false) // Ага, этот юзер уже открыл вкладку, значит ничего не делаем
+//     } else {
+//       callback(true) // А вот тут он новенький
+//       userlist[socket.user_id] = data // Фигачим его в массив
+//       UpdateUserList() // Обновляем список онлайн юзеров
+//     }
+//   })
+//   // При дисконнекте
+//   socket.on('disconnect', function () {
+//     delete userlist[socket.user_id]
+// Тут немного магии, чтобы юзеры в списке онлайн на клиенте не моргали,
+// когда например они ходят по ссылкам сайта
+//     setTimeout(function () {
+//       UpdateUserList()
+//     }, 1000)
+//   })
+
+//   function UpdateUserList() {
+//     io.sockets.emit('updateusers', userlist)
+//   }
+// })
